@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useStore } from '@/lib/store';
+import Image from 'next/image';
 import {
   Box,
   Flex,
@@ -35,23 +36,33 @@ export default function LoginPage() {
     >
       <Box maxW="md" w="full">
         {/* Logo */}
-        <Box textAlign="center" mb={{ base: 6, sm: 8 }}>
+        <Flex flexDir="column" align="center" mb={{ base: 8, sm: 10 }}>
+          <Box mb={4}>
+            <Image 
+              src="/alumina-isotipo.webp" 
+              alt="Alumina Logo" 
+              width={80} 
+              height={100}
+              priority
+            />
+          </Box>
           <Heading
             as="h1"
-            fontSize={{ base: "3xl", sm: "4xl" }}
+            fontSize={{ base: "4xl", sm: "5xl" }}
             fontWeight="bold"
             color="accent.400"
-            mb={{ base: 1, sm: 2 }}
+            mb={{ base: 2, sm: 3 }}
+            letterSpacing="tight"
           >
             ALUMINA
           </Heading>
-          <Text color="accent.200" opacity={0.6} fontSize="sm">
+          <Text color="accent.200" opacity={0.6} fontSize="lg">
             At Home
           </Text>
-          <Text color="whiteAlpha.600" fontSize="sm" mt={{ base: 3, sm: 4 }}>
+          <Text color="whiteAlpha.600" fontSize="md" mt={{ base: 4, sm: 5 }}>
             Longevity in Your Personal Sanctuary
           </Text>
-        </Box>
+        </Flex>
 
         {/* Form */}
         <Box
