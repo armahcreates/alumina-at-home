@@ -1,5 +1,5 @@
 import { createMachine, assign } from 'xstate';
-import { Profile } from './supabase';
+import { Profile } from './db';
 
 export interface ProfileContext {
   profile: Profile | null;

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { upsertProfile, getProfile } from '@/lib/supabase';
+import { upsertProfile, getProfile } from '@/lib/db';
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     const { data, error } = await upsertProfile(userId, profileData);
 
     if (error) {
-      console.error('Supabase update failed:', error);
+      console.error('Database update failed:', error);
       return NextResponse.json(
         { error: 'Failed to update profile', details: error },
         { status: 500 }
