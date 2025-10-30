@@ -1,6 +1,17 @@
 'use client';
 
 import { useState } from 'react';
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Button,
+  Grid,
+  Icon,
+  Badge,
+  Link,
+} from '@chakra-ui/react';
 
 interface EquipmentItem {
   id: string;
@@ -108,116 +119,248 @@ export default function EquipmentGuide() {
   };
 
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <Flex direction="column" gap={{ base: 6, sm: 8 }}>
       {/* Tier Selector */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-        {(Object.keys(tierInfo) as Array<keyof typeof tierInfo>).map((tier, index) => (
-          <button
+      <Grid templateColumns={{ base: '1fr', sm: 'repeat(3, 1fr)' }} gap={{ base: 3, sm: 4 }}>
+        {(Object.keys(tierInfo) as Array<keyof typeof tierInfo>).map((tier) => (
+          <Button
             key={tier}
             onClick={() => setActiveTier(tier)}
             aria-label={`Select ${tierInfo[tier].title}`}
             aria-current={activeTier === tier ? 'true' : undefined}
-            className={`p-4 sm:p-5 rounded-xl border transition-all text-left focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-primary-900 ${
-              activeTier === tier
-                ? 'bg-accent-500/20 border-accent-500/50 shadow-lg'
-                : 'bg-primary-600/50 border-primary-400/30 hover:bg-primary-600/60'
-            }`}
+            p={{ base: 4, sm: 5 }}
+            borderRadius="xl"
+            borderWidth="1px"
+            transition="all 0.3s"
+            textAlign="left"
+            h="auto"
+            flexDir="column"
+            alignItems="flex-start"
+            bg={activeTier === tier ? 'accent.500' : 'primary.600'}
+            opacity={activeTier === tier ? 0.2 : 0.5}
+            borderColor={activeTier === tier ? 'accent.500' : 'primary.400'}
+            boxShadow={activeTier === tier ? 'lg' : 'none'}
+            _hover={{
+              bg: activeTier === tier ? 'accent.500' : 'primary.600',
+              opacity: activeTier === tier ? 0.2 : 0.6,
+            }}
+            _focus={{
+              ring: 2,
+              ringColor: 'accent.400',
+              ringOffset: 2,
+              ringOffsetColor: 'primary.900',
+            }}
           >
-            <p className={`font-semibold text-sm sm:text-base ${activeTier === tier ? 'text-accent-300' : 'text-white'}`}>
+            <Text
+              fontWeight="semibold"
+              fontSize={{ base: 'sm', sm: 'base' }}
+              color={activeTier === tier ? 'accent.300' : 'white'}
+            >
               {tierInfo[tier].title}
-            </p>
-            <p className="text-xs sm:text-sm text-white/60 mt-1">{tierInfo[tier].budget}</p>
-          </button>
+            </Text>
+            <Text fontSize={{ base: 'xs', sm: 'sm' }} color="whiteAlpha.600" mt={1}>
+              {tierInfo[tier].budget}
+            </Text>
+          </Button>
         ))}
-      </div>
+      </Grid>
 
       {/* Tier Description */}
-      <div className="bg-primary-600/30 border border-primary-400/20 rounded-xl p-4 sm:p-5">
-        <p className="text-white/70 text-sm sm:text-base">{tierInfo[activeTier].description}</p>
-      </div>
+      <Box
+        bg="primary.600"
+        opacity={0.3}
+        borderWidth="1px"
+        borderColor="primary.400"
+        borderRadius="xl"
+        p={{ base: 4, sm: 5 }}
+      >
+        <Text color="whiteAlpha.700" fontSize={{ base: 'sm', sm: 'base' }}>
+          {tierInfo[activeTier].description}
+        </Text>
+      </Box>
 
       {/* Equipment List */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
-        {filteredEquipment.map((item, index) => (
-          <div
+      <Grid templateColumns={{ base: '1fr', lg: 'repeat(2, 1fr)' }} gap={{ base: 4, sm: 5 }}>
+        {filteredEquipment.map((item) => (
+          <Box
             key={item.id}
-            className="bg-primary-600/50 border border-primary-400/30 rounded-xl p-4 sm:p-5 hover:bg-primary-600/60 hover:border-primary-400/50 transition-all"
+            bg="primary.600"
+            opacity={0.5}
+            borderWidth="1px"
+            borderColor="primary.400"
+            borderRadius="xl"
+            p={{ base: 4, sm: 5 }}
+            _hover={{ bg: 'primary.600', opacity: 0.6, borderColor: 'primary.400' }}
+            transition="all 0.3s"
           >
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                  <h3 className="text-base sm:text-lg font-semibold text-white">{item.name}</h3>
-                  <span className="px-2 py-0.5 bg-accent-500/20 text-accent-300 rounded text-xs sm:text-sm">
+            <Flex
+              direction={{ base: 'column', sm: 'row' }}
+              align={{ base: 'stretch', sm: 'flex-start' }}
+              justify={{ base: 'flex-start', sm: 'space-between' }}
+              gap={3}
+              mb={4}
+            >
+              <Box flex={1}>
+                <Flex align="center" gap={2} mb={1.5} flexWrap="wrap">
+                  <Heading as="h3" size={{ base: 'sm', sm: 'md' }} color="white">
+                    {item.name}
+                  </Heading>
+                  <Badge
+                    px={2}
+                    py={0.5}
+                    bg="accent.500"
+                    opacity={0.2}
+                    color="accent.300"
+                    borderRadius="md"
+                    fontSize={{ base: 'xs', sm: 'sm' }}
+                  >
                     {item.category}
-                  </span>
-                </div>
-                <p className="text-white/60 text-sm sm:text-base mb-2">{item.description}</p>
-                <p className="text-accent-400 font-semibold text-base sm:text-lg">{item.price}</p>
-              </div>
+                  </Badge>
+                </Flex>
+                <Text color="whiteAlpha.600" fontSize={{ base: 'sm', sm: 'base' }} mb={2}>
+                  {item.description}
+                </Text>
+                <Text color="accent.400" fontWeight="semibold" fontSize={{ base: 'base', sm: 'lg' }}>
+                  {item.price}
+                </Text>
+              </Box>
 
-              <button
+              <Button
                 onClick={() => toggleOwned(item.id)}
                 aria-label={`Mark ${item.name} as ${ownedItems.includes(item.id) ? 'not owned' : 'owned'}`}
                 aria-pressed={ownedItems.includes(item.id)}
-                className={`px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg text-sm sm:text-base font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-primary-900 ${
-                  ownedItems.includes(item.id)
-                    ? 'bg-accent-500/20 border border-accent-500/30 text-accent-300'
-                    : 'bg-primary-700/50 border border-primary-400/30 text-white/60 hover:bg-primary-700/70'
-                }`}
+                px={{ base: 4, sm: 5 }}
+                py={{ base: 2, sm: 2.5 }}
+                borderRadius="lg"
+                fontSize={{ base: 'sm', sm: 'base' }}
+                fontWeight="semibold"
+                transition="all 0.3s"
+                bg={ownedItems.includes(item.id) ? 'accent.500' : 'primary.700'}
+                opacity={ownedItems.includes(item.id) ? 0.2 : 0.5}
+                borderWidth="1px"
+                borderColor={ownedItems.includes(item.id) ? 'accent.500' : 'primary.400'}
+                color={ownedItems.includes(item.id) ? 'accent.300' : 'whiteAlpha.600'}
+                _hover={{
+                  bg: ownedItems.includes(item.id) ? 'accent.500' : 'primary.700',
+                  opacity: ownedItems.includes(item.id) ? 0.2 : 0.7,
+                }}
+                _focus={{
+                  ring: 2,
+                  ringColor: 'accent.400',
+                  ringOffset: 2,
+                  ringOffsetColor: 'primary.900',
+                }}
               >
-                {ownedItems.includes(item.id) ? '✓ Owned' : 'Mark Owned'}
-              </button>
-            </div>
+                {ownedItems.includes(item.id) ? 'Owned' : 'Mark Owned'}
+              </Button>
+            </Flex>
 
             {/* Benefits */}
-            <div className="mb-4">
-              <p className="text-white/50 text-xs sm:text-sm mb-2.5 font-medium">Key Benefits:</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
+            <Box mb={4}>
+              <Text color="whiteAlpha.500" fontSize={{ base: 'xs', sm: 'sm' }} mb={2.5} fontWeight="medium">
+                Key Benefits:
+              </Text>
+              <Grid templateColumns={{ base: '1fr', sm: 'repeat(2, 1fr)' }} gap={{ base: 2, sm: 2.5 }}>
                 {item.benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-accent-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <Flex key={index} align="center" gap={2}>
+                    <Icon
+                      viewBox="0 0 24 24"
+                      w={{ base: 4, sm: 4.5 }}
+                      h={{ base: 4, sm: 4.5 }}
+                      color="accent.400"
+                      flexShrink={0}
+                      fill="none"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span className="text-white/70 text-sm sm:text-base">{benefit}</span>
-                  </div>
+                    </Icon>
+                    <Text color="whiteAlpha.700" fontSize={{ base: 'sm', sm: 'base' }}>
+                      {benefit}
+                    </Text>
+                  </Flex>
                 ))}
-              </div>
-            </div>
+              </Grid>
+            </Box>
 
             {/* Buy Button */}
-            <a
+            <Link
               href={item.buyLink}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`View ${item.name} product details`}
-              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 bg-gradient-to-r from-accent-500 to-accent-600 text-white rounded-xl font-semibold text-sm sm:text-base hover:from-accent-600 hover:to-accent-700 transition-all shadow-lg shadow-accent-500/20 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-primary-900"
+              display="inline-flex"
+              alignItems="center"
+              gap={2}
+              px={{ base: 4, sm: 5 }}
+              py={{ base: 2.5, sm: 3 }}
+              bgGradient="linear(to-r, accent.500, accent.600)"
+              color="white"
+              borderRadius="xl"
+              fontWeight="semibold"
+              fontSize={{ base: 'sm', sm: 'base' }}
+              boxShadow="lg"
+              _hover={{
+                bgGradient: 'linear(to-r, accent.600, accent.700)',
+              }}
+              transition="all 0.3s"
+              _focus={{
+                ring: 2,
+                ringColor: 'accent.400',
+                ringOffset: 2,
+                ringOffsetColor: 'primary.900',
+              }}
             >
-              <span>View Product</span>
-              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <Text>View Product</Text>
+              <Icon
+                viewBox="0 0 24 24"
+                w={{ base: 4, sm: 5 }}
+                h={{ base: 4, sm: 5 }}
+                fill="none"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </a>
-          </div>
+              </Icon>
+            </Link>
+          </Box>
         ))}
-      </div>
+      </Grid>
 
       {/* Investment Summary */}
-      <div className="bg-gradient-to-br from-accent-500/10 to-accent-600/10 border border-accent-500/20 rounded-2xl p-5 sm:p-6 lg:p-8">
-        <h3 className="text-lg sm:text-xl font-semibold text-white mb-2 sm:mb-3">Investment ROI</h3>
-        <p className="text-white/70 text-sm sm:text-base mb-4 sm:mb-5 max-w-3xl">
+      <Box
+        bgGradient="linear(to-br, accent.500, accent.600)"
+        opacity={0.1}
+        borderWidth="1px"
+        borderColor="accent.500"
+        borderRadius="2xl"
+        p={{ base: 5, sm: 6, lg: 8 }}
+      >
+        <Heading as="h3" size={{ base: 'md', sm: 'lg' }} color="white" mb={{ base: 2, sm: 3 }}>
+          Investment ROI
+        </Heading>
+        <Text color="whiteAlpha.700" fontSize={{ base: 'sm', sm: 'base' }} mb={{ base: 4, sm: 5 }} maxW="3xl">
           Quality equipment pays for itself in health gains and healthcare cost avoidance.
-        </p>
-        <div className="grid grid-cols-2 gap-4 sm:gap-6">
-          <div>
-            <p className="text-white/50 text-xs sm:text-sm mb-1.5">Avg. Equipment Cost</p>
-            <p className="text-white font-semibold text-base sm:text-lg">{tierInfo[activeTier].budget}</p>
-          </div>
-          <div>
-            <p className="text-white/50 text-xs sm:text-sm mb-1.5">Potential Savings</p>
-            <p className="text-accent-400 font-semibold text-base sm:text-lg">$50K+ lifetime</p>
-          </div>
-        </div>
-      </div>
-    </div>
+        </Text>
+        <Grid templateColumns="repeat(2, 1fr)" gap={{ base: 4, sm: 6 }}>
+          <Box>
+            <Text color="whiteAlpha.500" fontSize={{ base: 'xs', sm: 'sm' }} mb={1.5}>
+              Avg. Equipment Cost
+            </Text>
+            <Text color="white" fontWeight="semibold" fontSize={{ base: 'base', sm: 'lg' }}>
+              {tierInfo[activeTier].budget}
+            </Text>
+          </Box>
+          <Box>
+            <Text color="whiteAlpha.500" fontSize={{ base: 'xs', sm: 'sm' }} mb={1.5}>
+              Potential Savings
+            </Text>
+            <Text color="accent.400" fontWeight="semibold" fontSize={{ base: 'base', sm: 'lg' }}>
+              $50K+ lifetime
+            </Text>
+          </Box>
+        </Grid>
+      </Box>
+    </Flex>
   );
 }

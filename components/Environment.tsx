@@ -2,6 +2,16 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Button,
+  Grid,
+  Icon,
+  Badge,
+} from '@chakra-ui/react';
 
 export default function Environment() {
   const [activeRoom, setActiveRoom] = useState('bedroom');
@@ -91,7 +101,7 @@ export default function Environment() {
       optimizations: [
         {
           title: 'Shower Filter',
-          current: 'Installed ✓',
+          current: 'Installed',
           optimal: 'Installed',
           status: 'optimized',
           priority: 'high',
@@ -157,47 +167,88 @@ export default function Environment() {
   const currentRoom = rooms[activeRoom as keyof typeof rooms];
 
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <Flex direction="column" gap={{ base: 6, sm: 8 }}>
       {/* Room Selector */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <Grid templateColumns={{ base: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }} gap={{ base: 3, sm: 4 }}>
         {Object.entries(rooms).map(([key, room], index) => (
-          <motion.button
+          <motion.div
             key={key}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05, duration: 0.3 }}
-            onClick={() => setActiveRoom(key)}
-            aria-label={`Select ${room.name}`}
-            aria-current={activeRoom === key ? 'true' : undefined}
-            className={`p-4 sm:p-5 rounded-xl border transition-all focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-primary-900 ${
-              activeRoom === key
-                ? 'bg-accent-500/20 border-accent-500/30 shadow-lg'
-                : 'bg-primary-600/50 border-primary-400/30 hover:bg-primary-600/60 hover:border-primary-400/50'
-            }`}
           >
-            <div className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-primary-700/50 border border-primary-400/30 mb-2 sm:mb-3">
-              <span className="text-xs sm:text-sm font-bold text-accent-400">{room.icon}</span>
-            </div>
-            <p className={`font-semibold text-sm sm:text-base mb-2 ${activeRoom === key ? 'text-accent-300' : 'text-white'}`}>
-              {room.name}
-            </p>
-            <div className="flex items-center gap-2">
-              <div className="flex-1 h-1.5 sm:h-2 bg-white/10 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-accent-400 to-accent-500 transition-all duration-500"
-                  style={{ width: `${room.score}%` }}
-                  role="progressbar"
-                  aria-valuenow={room.score}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-label={`${room.name} optimization score`}
-                />
-              </div>
-              <span className="text-xs sm:text-sm text-white/60 font-semibold">{room.score}%</span>
-            </div>
-          </motion.button>
+            <Button
+              onClick={() => setActiveRoom(key)}
+              aria-label={`Select ${room.name}`}
+              aria-current={activeRoom === key ? 'true' : undefined}
+              p={{ base: 4, sm: 5 }}
+              borderRadius="xl"
+              borderWidth="1px"
+              transition="all 0.3s"
+              bg={activeRoom === key ? 'accent.500' : 'primary.600'}
+              opacity={activeRoom === key ? 0.2 : 0.5}
+              borderColor={activeRoom === key ? 'accent.500' : 'primary.400'}
+              boxShadow={activeRoom === key ? 'lg' : 'none'}
+              h="auto"
+              flexDir="column"
+              _hover={{
+                bg: activeRoom === key ? 'accent.500' : 'primary.600',
+                opacity: activeRoom === key ? 0.2 : 0.6,
+                borderColor: activeRoom === key ? 'accent.500' : 'primary.400',
+              }}
+              _focus={{
+                ring: 2,
+                ringColor: 'accent.400',
+                ringOffset: 2,
+                ringOffsetColor: 'primary.900',
+              }}
+            >
+              <Flex
+                align="center"
+                justify="center"
+                w={{ base: 12, sm: 14 }}
+                h={{ base: 12, sm: 14 }}
+                borderRadius="lg"
+                bg="primary.700"
+                opacity={0.5}
+                borderWidth="1px"
+                borderColor="primary.400"
+                mb={{ base: 2, sm: 3 }}
+              >
+                <Text fontSize={{ base: 'xs', sm: 'sm' }} fontWeight="bold" color="accent.400">
+                  {room.icon}
+                </Text>
+              </Flex>
+              <Text
+                fontWeight="semibold"
+                fontSize={{ base: 'sm', sm: 'base' }}
+                mb={2}
+                color={activeRoom === key ? 'accent.300' : 'white'}
+              >
+                {room.name}
+              </Text>
+              <Flex align="center" gap={2} w="full">
+                <Box flex={1} h={{ base: 1.5, sm: 2 }} bg="whiteAlpha.100" borderRadius="full" overflow="hidden">
+                  <Box
+                    h="full"
+                    bgGradient="linear(to-r, accent.400, accent.500)"
+                    transition="all 0.5s"
+                    w={`${room.score}%`}
+                    role="progressbar"
+                    aria-valuenow={room.score}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-label={`${room.name} optimization score`}
+                  />
+                </Box>
+                <Text fontSize={{ base: 'xs', sm: 'sm' }} color="whiteAlpha.600" fontWeight="semibold">
+                  {room.score}%
+                </Text>
+              </Flex>
+            </Button>
+          </motion.div>
         ))}
-      </div>
+      </Grid>
 
       {/* Room Details */}
       <motion.div
@@ -205,95 +256,235 @@ export default function Environment() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="bg-primary-600/50 border border-primary-400/30 rounded-2xl p-5 sm:p-6"
       >
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5 sm:mb-6">
-          <h3 className="text-xl sm:text-2xl font-bold text-white">{currentRoom.name}</h3>
-          <div className="flex items-center gap-2">
-            <div className={`w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full ${getScoreColor(currentRoom.score)}`} aria-hidden="true" />
-            <span className="text-white/60 text-sm sm:text-base font-medium">{currentRoom.score}% Optimized</span>
-          </div>
-        </div>
+        <Box
+          bg="primary.600"
+          opacity={0.5}
+          borderWidth="1px"
+          borderColor="primary.400"
+          borderRadius="2xl"
+          p={{ base: 5, sm: 6 }}
+        >
+          <Flex
+            direction={{ base: 'column', sm: 'row' }}
+            align={{ base: 'flex-start', sm: 'center' }}
+            justify={{ base: 'flex-start', sm: 'space-between' }}
+            gap={3}
+            mb={{ base: 5, sm: 6 }}
+          >
+            <Heading as="h3" size={{ base: 'lg', sm: 'xl' }} color="white">
+              {currentRoom.name}
+            </Heading>
+            <Flex align="center" gap={2}>
+              <Box
+                w={{ base: 3, sm: 3.5 }}
+                h={{ base: 3, sm: 3.5 }}
+                borderRadius="full"
+                bg={getScoreColor(currentRoom.score)}
+                aria-hidden="true"
+              />
+              <Text color="whiteAlpha.600" fontSize={{ base: 'sm', sm: 'base' }} fontWeight="medium">
+                {currentRoom.score}% Optimized
+              </Text>
+            </Flex>
+          </Flex>
 
-        <div className="space-y-3 sm:space-y-4">
-          {currentRoom.optimizations.map((opt, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.05, duration: 0.3 }}
-              className="bg-primary-700/50 rounded-xl p-4 sm:p-5 hover:bg-primary-700/60 transition-all"
-            >
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2 flex-wrap">
-                    <h4 className="font-semibold text-white text-base sm:text-lg">{opt.title}</h4>
-                    <span className={`px-2 py-0.5 rounded text-xs sm:text-sm ${getPriorityColor(opt.priority)}`}>
-                      {opt.priority}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm sm:text-base mb-3 flex-wrap">
-                    <span className="text-white/40">Current:</span>
-                    <span className="text-white/70 font-medium">{opt.current}</span>
-                    <span className="text-white/40">→</span>
-                    <span className="text-accent-400 font-semibold">{opt.optimal}</span>
-                  </div>
-                  <p className="text-white/60 text-sm sm:text-base mb-4">{opt.description}</p>
-                  <div className="bg-primary-600/50 border border-primary-400/30 rounded-lg p-3 sm:p-4">
-                    <p className="text-xs sm:text-sm text-white/40 mb-1.5 font-medium">Recommended Action:</p>
-                    <p className="text-sm sm:text-base text-white/80">{opt.action}</p>
-                  </div>
-                </div>
-                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center flex-shrink-0 ${getStatusBg(opt.status)}`} aria-label={`Status: ${opt.status}`}>
-                  {opt.status === 'optimized' ? (
-                    <svg className="w-6 h-6 sm:w-7 sm:h-7 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  ) : opt.status === 'good' ? (
-                    <svg className="w-6 h-6 sm:w-7 sm:h-7 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                    </svg>
-                  ) : (
-                    <svg className="w-6 h-6 sm:w-7 sm:h-7 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+          <Flex direction="column" gap={{ base: 3, sm: 4 }}>
+            {currentRoom.optimizations.map((opt, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.05, duration: 0.3 }}
+              >
+                <Box
+                  bg="primary.700"
+                  opacity={0.5}
+                  borderRadius="xl"
+                  p={{ base: 4, sm: 5 }}
+                  _hover={{ bg: 'primary.700', opacity: 0.6 }}
+                  transition="all 0.3s"
+                >
+                  <Flex
+                    direction={{ base: 'column', sm: 'row' }}
+                    align={{ base: 'stretch', sm: 'flex-start' }}
+                    justify={{ base: 'flex-start', sm: 'space-between' }}
+                    gap={4}
+                  >
+                    <Box flex={1}>
+                      <Flex align="center" gap={2} mb={2} flexWrap="wrap">
+                        <Heading as="h4" size={{ base: 'sm', sm: 'md' }} color="white">
+                          {opt.title}
+                        </Heading>
+                        <Badge
+                          px={2}
+                          py={0.5}
+                          borderRadius="md"
+                          fontSize={{ base: 'xs', sm: 'sm' }}
+                          bg={getPriorityBg(opt.priority)}
+                          color={getPriorityColor(opt.priority)}
+                        >
+                          {opt.priority}
+                        </Badge>
+                      </Flex>
+                      <Flex align="center" gap={2} fontSize={{ base: 'sm', sm: 'base' }} mb={3} flexWrap="wrap">
+                        <Text color="whiteAlpha.400">Current:</Text>
+                        <Text color="whiteAlpha.700" fontWeight="medium">
+                          {opt.current}
+                        </Text>
+                        <Text color="whiteAlpha.400">→</Text>
+                        <Text color="accent.400" fontWeight="semibold">
+                          {opt.optimal}
+                        </Text>
+                      </Flex>
+                      <Text color="whiteAlpha.600" fontSize={{ base: 'sm', sm: 'base' }} mb={4}>
+                        {opt.description}
+                      </Text>
+                      <Box
+                        bg="primary.600"
+                        opacity={0.5}
+                        borderWidth="1px"
+                        borderColor="primary.400"
+                        borderRadius="lg"
+                        p={{ base: 3, sm: 4 }}
+                      >
+                        <Text fontSize={{ base: 'xs', sm: 'sm' }} color="whiteAlpha.400" mb={1.5} fontWeight="medium">
+                          Recommended Action:
+                        </Text>
+                        <Text fontSize={{ base: 'sm', sm: 'base' }} color="whiteAlpha.800">
+                          {opt.action}
+                        </Text>
+                      </Box>
+                    </Box>
+                    <Flex
+                      w={{ base: 12, sm: 14 }}
+                      h={{ base: 12, sm: 14 }}
+                      borderRadius="full"
+                      align="center"
+                      justify="center"
+                      flexShrink={0}
+                      bg={getStatusBg(opt.status)}
+                      aria-label={`Status: ${opt.status}`}
+                    >
+                      {opt.status === 'optimized' ? (
+                        <Icon
+                          viewBox="0 0 24 24"
+                          w={{ base: 6, sm: 7 }}
+                          h={{ base: 6, sm: 7 }}
+                          color="accent.400"
+                          fill="none"
+                          stroke="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </Icon>
+                      ) : opt.status === 'good' ? (
+                        <Icon
+                          viewBox="0 0 24 24"
+                          w={{ base: 6, sm: 7 }}
+                          h={{ base: 6, sm: 7 }}
+                          color="accent.400"
+                          fill="none"
+                          stroke="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </Icon>
+                      ) : (
+                        <Icon
+                          viewBox="0 0 24 24"
+                          w={{ base: 6, sm: 7 }}
+                          h={{ base: 6, sm: 7 }}
+                          color="accent.400"
+                          fill="none"
+                          stroke="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </Icon>
+                      )}
+                    </Flex>
+                  </Flex>
+                </Box>
+              </motion.div>
+            ))}
+          </Flex>
+        </Box>
       </motion.div>
 
       {/* Equipment Guide */}
-      <div className="bg-gradient-to-br from-accent-500/10 to-accent-600/10 border border-accent-500/20 rounded-2xl p-5 sm:p-6 lg:p-8 text-center">
-        <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Equipment Recommendations</h3>
-        <p className="text-white/60 text-sm sm:text-base mb-4 sm:mb-5 max-w-2xl mx-auto">Curated tools for optimal home environment</p>
-        <button
+      <Box
+        bgGradient="linear(to-br, accent.500, accent.600)"
+        opacity={0.1}
+        borderWidth="1px"
+        borderColor="accent.500"
+        borderRadius="2xl"
+        p={{ base: 5, sm: 6, lg: 8 }}
+        textAlign="center"
+      >
+        <Heading as="h3" size={{ base: 'md', sm: 'lg' }} color="white" mb={2}>
+          Equipment Recommendations
+        </Heading>
+        <Text
+          color="whiteAlpha.600"
+          fontSize={{ base: 'sm', sm: 'base' }}
+          mb={{ base: 4, sm: 5 }}
+          maxW="2xl"
+          mx="auto"
+        >
+          Curated tools for optimal home environment
+        </Text>
+        <Button
           aria-label="View equipment guide"
-          className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 bg-accent-500/20 border border-accent-500/30 text-accent-300 rounded-xl font-semibold hover:bg-accent-500/30 transition-all focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-primary-900"
+          w={{ base: 'full', sm: 'auto' }}
+          px={{ base: 6, sm: 8 }}
+          py={{ base: 3, sm: 3.5 }}
+          bg="accent.500"
+          opacity={0.2}
+          borderWidth="1px"
+          borderColor="accent.500"
+          color="accent.300"
+          borderRadius="xl"
+          fontWeight="semibold"
+          _hover={{
+            bg: 'accent.500',
+            opacity: 0.3,
+          }}
+          transition="all 0.3s"
+          _focus={{
+            ring: 2,
+            ringColor: 'accent.400',
+            ringOffset: 2,
+            ringOffsetColor: 'primary.900',
+          }}
         >
           View Equipment Guide
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Box>
+    </Flex>
   );
 }
 
 function getScoreColor(score: number) {
-  if (score >= 80) return 'bg-accent-400';
-  if (score >= 60) return 'bg-accent-500';
-  return 'bg-accent-600';
+  if (score >= 80) return 'accent.400';
+  if (score >= 60) return 'accent.500';
+  return 'accent.600';
 }
 
 function getStatusBg(status: string) {
-  if (status === 'optimized') return 'bg-accent-500/20';
-  if (status === 'good') return 'bg-accent-400/20';
-  return 'bg-accent-600/20';
+  if (status === 'optimized') return 'accent.500';
+  if (status === 'good') return 'accent.400';
+  return 'accent.600';
+}
+
+function getPriorityBg(priority: string) {
+  if (priority === 'high') return 'accent.600';
+  if (priority === 'medium') return 'accent.500';
+  return 'primary.400';
 }
 
 function getPriorityColor(priority: string) {
-  if (priority === 'high') return 'bg-accent-600/20 text-accent-300';
-  if (priority === 'medium') return 'bg-accent-500/20 text-accent-300';
-  return 'bg-primary-400/20 text-accent-400';
+  if (priority === 'high') return 'accent.300';
+  if (priority === 'medium') return 'accent.300';
+  return 'accent.400';
 }

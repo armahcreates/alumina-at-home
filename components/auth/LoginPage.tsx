@@ -2,6 +2,17 @@
 
 import { useState } from 'react';
 import { useStore } from '@/lib/store';
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Button,
+  Input,
+  Stack,
+  Grid
+} from '@chakra-ui/react';
+import { Field } from '@chakra-ui/react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -15,86 +26,193 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-900 via-primary-700 to-primary-900 flex items-center justify-center p-4 sm:p-6">
-      <div className="max-w-md w-full">
+    <Flex
+      minH="100vh"
+      bgGradient="linear(to-br, primary.900, primary.700, primary.900)"
+      align="center"
+      justify="center"
+      p={{ base: 4, sm: 6 }}
+    >
+      <Box maxW="md" w="full">
         {/* Logo */}
-        <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-accent-400 mb-1 sm:mb-2">ALUMINA</h1>
-          <p className="text-accent-200/60 text-sm">At Home</p>
-          <p className="text-white/60 text-sm mt-3 sm:mt-4">
+        <Box textAlign="center" mb={{ base: 6, sm: 8 }}>
+          <Heading
+            as="h1"
+            fontSize={{ base: "3xl", sm: "4xl" }}
+            fontWeight="bold"
+            color="accent.400"
+            mb={{ base: 1, sm: 2 }}
+          >
+            ALUMINA
+          </Heading>
+          <Text color="accent.200" opacity={0.6} fontSize="sm">
+            At Home
+          </Text>
+          <Text color="whiteAlpha.600" fontSize="sm" mt={{ base: 3, sm: 4 }}>
             Longevity in Your Personal Sanctuary
-          </p>
-        </div>
+          </Text>
+        </Box>
 
         {/* Form */}
-        <div className="bg-primary-600/50 border border-primary-400/30 rounded-2xl p-5 sm:p-6">
-          <h2 className="text-xl sm:text-2xl font-bold text-white mb-5 sm:mb-6">
+        <Box
+          bg="primary.600"
+          opacity={0.5}
+          borderWidth="1px"
+          borderColor="primary.400"
+          borderRadius="2xl"
+          p={{ base: 5, sm: 6 }}
+        >
+          <Heading
+            as="h2"
+            size={{ base: "lg", sm: "xl" }}
+            color="white"
+            mb={{ base: 5, sm: 6 }}
+          >
             {isSignUp ? 'Create Account' : 'Welcome Back'}
-          </h2>
+          </Heading>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-white/70 text-sm mb-2">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3.5 bg-primary-700/50 border border-primary-400/30 rounded-xl text-white text-base placeholder-white/40 focus:outline-none focus:border-accent-400"
-                placeholder="your@email.com"
-                required
-                autoComplete="email"
-              />
-            </div>
+          <form onSubmit={handleSubmit}>
+            <Stack gap={4}>
+              <Field.Root>
+                <Field.Label color="whiteAlpha.700" fontSize="sm">
+                  Email
+                </Field.Label>
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  px={4}
+                  py={3.5}
+                  bg="primary.700"
+                  opacity={0.5}
+                  borderWidth="1px"
+                  borderColor="primary.400"
+                  borderRadius="xl"
+                  color="white"
+                  fontSize="base"
+                  placeholder="your@email.com"
+                  _placeholder={{ color: "whiteAlpha.400" }}
+                  _focus={{
+                    borderColor: "accent.400",
+                    outline: "none"
+                  }}
+                  required
+                  autoComplete="email"
+                  minH="52px"
+                />
+              </Field.Root>
 
-            <div>
-              <label className="block text-white/70 text-sm mb-2">Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3.5 bg-primary-700/50 border border-primary-400/30 rounded-xl text-white text-base placeholder-white/40 focus:outline-none focus:border-accent-400"
-                placeholder="••••••••"
-                required
-                autoComplete="current-password"
-              />
-            </div>
+              <Field.Root>
+                <Field.Label color="whiteAlpha.700" fontSize="sm">
+                  Password
+                </Field.Label>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  px={4}
+                  py={3.5}
+                  bg="primary.700"
+                  opacity={0.5}
+                  borderWidth="1px"
+                  borderColor="primary.400"
+                  borderRadius="xl"
+                  color="white"
+                  fontSize="base"
+                  placeholder="••••••••"
+                  _placeholder={{ color: "whiteAlpha.400" }}
+                  _focus={{
+                    borderColor: "accent.400",
+                    outline: "none"
+                  }}
+                  required
+                  autoComplete="current-password"
+                  minH="52px"
+                />
+              </Field.Root>
 
-            <button
-              type="submit"
-              className="w-full bg-gradient-to-r from-accent-500 to-accent-600 text-white font-semibold py-3.5 rounded-xl active:from-accent-600 active:to-accent-700 transition-all min-h-[48px]"
-            >
-              {isSignUp ? 'Create Account' : 'Sign In'}
-            </button>
+              <Button
+                type="submit"
+                w="full"
+                bgGradient="linear(to-r, accent.500, accent.600)"
+                color="white"
+                fontWeight="semibold"
+                py={3.5}
+                borderRadius="xl"
+                _active={{
+                  bgGradient: "linear(to-r, accent.600, accent.700)"
+                }}
+                minH="48px"
+              >
+                {isSignUp ? 'Create Account' : 'Sign In'}
+              </Button>
+            </Stack>
           </form>
 
-          <div className="mt-5 text-center">
-            <button
+          <Box mt={5} textAlign="center">
+            <Button
               onClick={() => setIsSignUp(!isSignUp)}
-              className="text-accent-400 text-sm active:text-accent-300 min-h-[44px] inline-flex items-center"
+              variant="ghost"
+              color="accent.400"
+              fontSize="sm"
+              _active={{ color: "accent.300" }}
+              minH="44px"
             >
               {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
-            </button>
-          </div>
+            </Button>
+          </Box>
 
           {/* Social Login */}
-          <div className="mt-5 pt-5 border-t border-primary-400/30">
-            <p className="text-white/40 text-xs text-center mb-3">Or continue with</p>
-            <div className="grid grid-cols-2 gap-3">
-              <button className="px-4 py-3 bg-primary-700/50 border border-primary-400/30 rounded-xl text-white/70 text-sm active:bg-primary-700 transition-all min-h-[48px]">
+          <Box mt={5} pt={5} borderTopWidth="1px" borderColor="primary.400" opacity={0.3}>
+            <Text color="whiteAlpha.400" fontSize="xs" textAlign="center" mb={3}>
+              Or continue with
+            </Text>
+            <Grid templateColumns="repeat(2, 1fr)" gap={3}>
+              <Button
+                px={4}
+                py={3}
+                bg="primary.700"
+                opacity={0.5}
+                borderWidth="1px"
+                borderColor="primary.400"
+                borderRadius="xl"
+                color="whiteAlpha.700"
+                fontSize="sm"
+                _active={{ bg: "primary.700" }}
+                minH="48px"
+              >
                 Google
-              </button>
-              <button className="px-4 py-3 bg-primary-700/50 border border-primary-400/30 rounded-xl text-white/70 text-sm active:bg-primary-700 transition-all min-h-[48px]">
+              </Button>
+              <Button
+                px={4}
+                py={3}
+                bg="primary.700"
+                opacity={0.5}
+                borderWidth="1px"
+                borderColor="primary.400"
+                borderRadius="xl"
+                color="whiteAlpha.700"
+                fontSize="sm"
+                _active={{ bg: "primary.700" }}
+                minH="48px"
+              >
                 Apple
-              </button>
-            </div>
-          </div>
-        </div>
+              </Button>
+            </Grid>
+          </Box>
+        </Box>
 
         {/* Footer */}
-        <p className="text-white/40 text-xs text-center mt-5 sm:mt-6 px-4">
+        <Text
+          color="whiteAlpha.400"
+          fontSize="xs"
+          textAlign="center"
+          mt={{ base: 5, sm: 6 }}
+          px={4}
+        >
           By continuing, you agree to our Terms & Privacy Policy
-        </p>
-      </div>
-    </div>
+        </Text>
+      </Box>
+    </Flex>
   );
 }

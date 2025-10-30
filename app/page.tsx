@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useStore } from '@/lib/store';
 import LoginPage from '@/components/auth/LoginPage';
 import OnboardingFlow from '@/components/auth/OnboardingFlow';
@@ -13,6 +14,15 @@ import Profile from '@/components/Profile';
 import VideoLibrary from '@/components/VideoLibrary';
 import EquipmentGuide from '@/components/EquipmentGuide';
 import AchievementsModal from '@/components/AchievementsModal';
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Button,
+  Grid,
+  Icon,
+} from '@chakra-ui/react';
 
 type Tab = 'dashboard' | 'protocols' | 'environment' | 'supplements' | 'progress' | 'profile' | 'videos' | 'equipment';
 
@@ -90,259 +100,454 @@ export default function Home() {
       {/* Achievements Modal */}
       <AchievementsModal isOpen={showAchievements} onClose={() => setShowAchievements(false)} />
 
-      <div className="min-h-screen bg-gradient-to-br from-primary-900 via-primary-700 to-primary-900">
+      <Box minH="100vh" bgGradient="linear(to-br, primary.900, primary.700, primary.900)">
         {/* Desktop Sidebar */}
-        <aside className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-72 lg:flex-col z-50">
-          <div className="flex flex-col flex-grow bg-primary-800/50 backdrop-blur-lg border-r border-accent-500/20 overflow-y-auto">
+        <Box
+          as="aside"
+          display={{ base: 'none', lg: 'flex' }}
+          position="fixed"
+          insetY={0}
+          w="72"
+          flexDir="column"
+          zIndex={50}
+        >
+          <Flex
+            flexDir="column"
+            flexGrow={1}
+            bg="primary.800"
+            opacity={0.5}
+            backdropFilter="blur(10px)"
+            borderRight="1px solid"
+            borderColor="accent.500"
+            overflowY="auto"
+          >
             {/* Logo */}
-            <div className="flex items-center justify-center px-6 py-5 border-b border-accent-500/20">
-              <div className="flex flex-col items-center">
-                <img src="/alumina-isotipo.webp" alt="Alumina" className="w-16 h-20" />
-                <p className="text-xs text-accent-200/60 leading-tight mt-2">At Home</p>
-              </div>
-            </div>
+            <Flex
+              align="center"
+              justify="center"
+              px={6}
+              py={5}
+              borderBottom="1px solid"
+              borderColor="accent.500"
+            >
+              <Flex flexDir="column" align="center">
+                <Image src="/alumina-isotipo.webp" alt="Alumina" width={64} height={80} />
+                <Text fontSize="xs" color="accent.200" opacity={0.6} lineHeight="tight" mt={2}>
+                  At Home
+                </Text>
+              </Flex>
+            </Flex>
 
             {/* User Profile Card */}
-            <div className="px-4 py-4 border-b border-accent-500/10">
-              <div className="flex items-center gap-3 p-3 bg-primary-700/50 rounded-xl">
-                <div className="w-12 h-12 bg-gradient-to-br from-accent-400 to-accent-600 rounded-full flex items-center justify-center text-white font-bold">
+            <Box px={4} py={4} borderBottom="1px solid" borderColor="accent.500" opacity={0.1}>
+              <Flex align="center" gap={3} p={3} bg="primary.700" opacity={0.5} borderRadius="xl">
+                <Flex
+                  w={12}
+                  h={12}
+                  bgGradient="linear(to-br, accent.400, accent.600)"
+                  borderRadius="full"
+                  align="center"
+                  justify="center"
+                  color="white"
+                  fontWeight="bold"
+                >
                   {user?.name?.[0]?.toUpperCase() || 'U'}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-white truncate">{user?.name || 'User'}</p>
-                  <p className="text-xs text-white/60 truncate">{user?.email || 'user@email.com'}</p>
-                </div>
-              </div>
-            </div>
+                </Flex>
+                <Box flex={1} minW={0}>
+                  <Text fontSize="sm" fontWeight="semibold" color="white" truncate>
+                    {user?.name || 'User'}
+                  </Text>
+                  <Text fontSize="xs" color="whiteAlpha.600" truncate>
+                    {user?.email || 'user@email.com'}
+                  </Text>
+                </Box>
+              </Flex>
+            </Box>
 
             {/* Stats */}
-            <div className="px-4 py-4 border-b border-accent-500/10">
-              <div className="grid grid-cols-2 gap-3">
-                <button
+            <Box px={4} py={4} borderBottom="1px solid" borderColor="accent.500" opacity={0.1}>
+              <Grid templateColumns="repeat(2, 1fr)" gap={3}>
+                <Button
                   onClick={() => setShowAchievements(true)}
                   aria-label="View streak"
-                  className="flex flex-col items-center gap-1.5 p-3 bg-accent-500/10 rounded-xl hover:bg-accent-500/15 transition-all focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-primary-900"
+                  flexDir="column"
+                  gap={1.5}
+                  p={3}
+                  bg="accent.500"
+                  opacity={0.1}
+                  borderRadius="xl"
+                  h="auto"
+                  _hover={{ bg: 'accent.500', opacity: 0.15 }}
+                  transition="all 0.3s"
+                  _focus={{ ring: 2, ringColor: 'accent.400', ringOffset: 2, ringOffsetColor: 'primary.900' }}
                 >
-                  <svg className="w-6 h-6 text-accent-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <Icon viewBox="0 0 24 24" w={6} h={6} color="accent.400" fill="currentColor" aria-hidden="true">
                     <path d="M12 2c1.5 1.5 3 3.5 3 5.5 0 2.5-1.5 4.5-3 4.5s-3-2-3-4.5c0-2 1.5-4 3-5.5zm0 18c-3.5 0-6-2.5-6-6 0-2 1-3.5 2-4.5.5 1.5 2 2.5 4 2.5s3.5-1 4-2.5c1 1 2 2.5 2 4.5 0 3.5-2.5 6-6 6z"/>
-                  </svg>
-                  <span className="text-lg font-bold text-accent-400">{currentStreak}</span>
-                  <span className="text-xs text-white/60">Day Streak</span>
-                </button>
-                <button
+                  </Icon>
+                  <Text fontSize="lg" fontWeight="bold" color="accent.400">{currentStreak}</Text>
+                  <Text fontSize="xs" color="whiteAlpha.600">Day Streak</Text>
+                </Button>
+                <Button
                   onClick={() => setShowAchievements(true)}
                   aria-label="View points"
-                  className="flex flex-col items-center gap-1.5 p-3 bg-accent-500/10 rounded-xl hover:bg-accent-500/15 transition-all focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-primary-900"
+                  flexDir="column"
+                  gap={1.5}
+                  p={3}
+                  bg="accent.500"
+                  opacity={0.1}
+                  borderRadius="xl"
+                  h="auto"
+                  _hover={{ bg: 'accent.500', opacity: 0.15 }}
+                  transition="all 0.3s"
+                  _focus={{ ring: 2, ringColor: 'accent.400', ringOffset: 2, ringOffsetColor: 'primary.900' }}
                 >
-                  <svg className="w-6 h-6 text-accent-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <Icon viewBox="0 0 24 24" w={6} h={6} color="accent.400" fill="currentColor" aria-hidden="true">
                     <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                  </svg>
-                  <span className="text-lg font-bold text-accent-400">{totalPoints}</span>
-                  <span className="text-xs text-white/60">Points</span>
-                </button>
-              </div>
-            </div>
+                  </Icon>
+                  <Text fontSize="lg" fontWeight="bold" color="accent.400">{totalPoints}</Text>
+                  <Text fontSize="xs" color="whiteAlpha.600">Points</Text>
+                </Button>
+              </Grid>
+            </Box>
 
             {/* Navigation */}
-            <nav className="flex-1 px-4 py-4 space-y-1" role="navigation" aria-label="Main navigation">
+            <Box as="nav" flex={1} px={4} py={4} css={{ '& > *': { marginBottom: '4px' } }} role="navigation" aria-label="Main navigation">
               {navigationItems.map((item) => (
-                <button
+                <Button
                   key={item.id}
                   onClick={() => setActiveTab(item.id as Tab)}
                   aria-label={`Navigate to ${item.label}`}
                   aria-current={activeTab === item.id ? 'page' : undefined}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-primary-900 ${
-                    activeTab === item.id
-                      ? 'bg-accent-500/20 text-accent-300 shadow-lg shadow-accent-500/10'
-                      : 'text-white/70 hover:bg-primary-700/50 hover:text-white'
-                  }`}
+                  w="full"
+                  justifyContent="flex-start"
+                  gap={3}
+                  px={4}
+                  py={3}
+                  borderRadius="xl"
+                  transition="all 0.3s"
+                  bg={activeTab === item.id ? 'accent.500' : 'transparent'}
+                  opacity={activeTab === item.id ? 0.2 : 1}
+                  color={activeTab === item.id ? 'accent.300' : 'whiteAlpha.700'}
+                  boxShadow={activeTab === item.id ? 'lg' : 'none'}
+                  _hover={{
+                    bg: activeTab === item.id ? 'accent.500' : 'primary.700',
+                    opacity: activeTab === item.id ? 0.2 : 0.5,
+                    color: activeTab === item.id ? 'accent.300' : 'white',
+                  }}
+                  _focus={{ ring: 2, ringColor: 'accent.400', ringOffset: 2, ringOffsetColor: 'primary.900' }}
                 >
-                  <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <Icon viewBox="0 0 24 24" w={5} h={5} flexShrink={0} fill="none" stroke="currentColor" aria-hidden="true">
                     {item.icon}
-                  </svg>
-                  <span className="font-medium">{item.label}</span>
-                </button>
+                  </Icon>
+                  <Text fontWeight="medium">{item.label}</Text>
+                </Button>
               ))}
-            </nav>
+            </Box>
 
             {/* Achievements Button */}
-            <div className="px-4 py-4 border-t border-accent-500/10">
-              <button
+            <Box px={4} py={4} borderTop="1px solid" borderColor="accent.500" opacity={0.1}>
+              <Button
                 onClick={() => setShowAchievements(true)}
                 aria-label="View all achievements"
-                className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-accent-500 to-accent-600 text-white rounded-xl hover:from-accent-600 hover:to-accent-700 transition-all shadow-lg shadow-accent-500/20 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-primary-900"
+                w="full"
+                gap={3}
+                px={4}
+                py={3}
+                bgGradient="linear(to-r, accent.500, accent.600)"
+                color="white"
+                borderRadius="xl"
+                boxShadow="lg"
+                _hover={{ bgGradient: 'linear(to-r, accent.600, accent.700)' }}
+                transition="all 0.3s"
+                _focus={{ ring: 2, ringColor: 'accent.400', ringOffset: 2, ringOffsetColor: 'primary.900' }}
               >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <Icon viewBox="0 0 24 24" w={5} h={5} fill="currentColor" aria-hidden="true">
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-                <span className="font-semibold">Achievements</span>
-              </button>
-            </div>
-          </div>
-        </aside>
+                </Icon>
+                <Text fontWeight="semibold">Achievements</Text>
+              </Button>
+            </Box>
+          </Flex>
+        </Box>
 
         {/* Mobile Sidebar Overlay */}
         {sidebarOpen && (
           <>
-            <div
-              className="fixed inset-0 bg-primary-900/95 backdrop-blur-sm z-40 lg:hidden"
+            <Box
+              position="fixed"
+              inset={0}
+              bg="primary.900"
+              opacity={0.95}
+              backdropFilter="blur(4px)"
+              zIndex={40}
+              display={{ base: 'block', lg: 'none' }}
               onClick={() => setSidebarOpen(false)}
               aria-hidden="true"
             />
-            <aside className="fixed inset-y-0 left-0 w-72 bg-primary-800/95 backdrop-blur-lg border-r border-accent-500/20 z-50 lg:hidden overflow-y-auto">
-              <div className="flex flex-col h-full">
-                {/* Close Button */}
-                <div className="flex items-center justify-between px-6 py-5 border-b border-accent-500/20">
-                  <div className="flex flex-col items-center flex-1">
-                    <img src="/alumina-isotipo.webp" alt="Alumina" className="w-16 h-20" />
-                    <p className="text-xs text-accent-200/60 leading-tight mt-2">At Home</p>
-                  </div>
-                  <button
+            <Box
+              as="aside"
+              position="fixed"
+              insetY={0}
+              left={0}
+              w="72"
+              bg="primary.800"
+              opacity={0.95}
+              backdropFilter="blur(10px)"
+              borderRight="1px solid"
+              borderColor="accent.500"
+              zIndex={50}
+              display={{ base: 'block', lg: 'none' }}
+              overflowY="auto"
+            >
+              <Flex flexDir="column" h="full">
+                {/* Close Button & Logo */}
+                <Flex align="center" justify="space-between" px={6} py={5} borderBottom="1px solid" borderColor="accent.500" opacity={0.2}>
+                  <Flex flexDir="column" align="center" flex={1}>
+                    <Image src="/alumina-isotipo.webp" alt="Alumina" width={64} height={80} />
+                    <Text fontSize="xs" color="accent.200" opacity={0.6} lineHeight="tight" mt={2}>
+                      At Home
+                    </Text>
+                  </Flex>
+                  <Button
                     onClick={() => setSidebarOpen(false)}
                     aria-label="Close menu"
-                    className="w-10 h-10 flex items-center justify-center text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-accent-400 rounded-lg"
+                    w={10}
+                    h={10}
+                    color="whiteAlpha.700"
+                    bg="transparent"
+                    _hover={{ color: 'white' }}
+                    transition="colors 0.3s"
+                    _focus={{ ring: 2, ringColor: 'accent.400' }}
+                    borderRadius="lg"
                   >
-                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <Icon viewBox="0 0 24 24" w={6} h={6} fill="none" stroke="currentColor" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
+                    </Icon>
+                  </Button>
+                </Flex>
 
-                {/* User Profile Card */}
-                <div className="px-4 py-4 border-b border-accent-500/10">
-                  <div className="flex items-center gap-3 p-3 bg-primary-700/50 rounded-xl">
-                    <div className="w-12 h-12 bg-gradient-to-br from-accent-400 to-accent-600 rounded-full flex items-center justify-center text-white font-bold">
+                {/* User Profile Card - Mobile */}
+                <Box px={4} py={4} borderBottom="1px solid" borderColor="accent.500" opacity={0.1}>
+                  <Flex align="center" gap={3} p={3} bg="primary.700" opacity={0.5} borderRadius="xl">
+                    <Flex
+                      w={12}
+                      h={12}
+                      bgGradient="linear(to-br, accent.400, accent.600)"
+                      borderRadius="full"
+                      align="center"
+                      justify="center"
+                      color="white"
+                      fontWeight="bold"
+                    >
                       {user?.name?.[0]?.toUpperCase() || 'U'}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-white truncate">{user?.name || 'User'}</p>
-                      <p className="text-xs text-white/60 truncate">{user?.email || 'user@email.com'}</p>
-                    </div>
-                  </div>
-                </div>
+                    </Flex>
+                    <Box flex={1} minW={0}>
+                      <Text fontSize="sm" fontWeight="semibold" color="white" truncate>
+                        {user?.name || 'User'}
+                      </Text>
+                      <Text fontSize="xs" color="whiteAlpha.600" truncate>
+                        {user?.email || 'user@email.com'}
+                      </Text>
+                    </Box>
+                  </Flex>
+                </Box>
 
-                {/* Stats */}
-                <div className="px-4 py-4 border-b border-accent-500/10">
-                  <div className="grid grid-cols-2 gap-3">
-                    <button
+                {/* Stats - Mobile */}
+                <Box px={4} py={4} borderBottom="1px solid" borderColor="accent.500" opacity={0.1}>
+                  <Grid templateColumns="repeat(2, 1fr)" gap={3}>
+                    <Button
                       onClick={() => {
                         setShowAchievements(true);
                         setSidebarOpen(false);
                       }}
                       aria-label="View streak"
-                      className="flex flex-col items-center gap-1.5 p-3 bg-accent-500/10 rounded-xl active:bg-accent-500/15 transition-all"
+                      flexDir="column"
+                      gap={1.5}
+                      p={3}
+                      bg="accent.500"
+                      opacity={0.1}
+                      borderRadius="xl"
+                      h="auto"
+                      _active={{ bg: 'accent.500', opacity: 0.15 }}
+                      transition="all 0.3s"
                     >
-                      <svg className="w-6 h-6 text-accent-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <Icon viewBox="0 0 24 24" w={6} h={6} color="accent.400" fill="currentColor" aria-hidden="true">
                         <path d="M12 2c1.5 1.5 3 3.5 3 5.5 0 2.5-1.5 4.5-3 4.5s-3-2-3-4.5c0-2 1.5-4 3-5.5zm0 18c-3.5 0-6-2.5-6-6 0-2 1-3.5 2-4.5.5 1.5 2 2.5 4 2.5s3.5-1 4-2.5c1 1 2 2.5 2 4.5 0 3.5-2.5 6-6 6z"/>
-                      </svg>
-                      <span className="text-lg font-bold text-accent-400">{currentStreak}</span>
-                      <span className="text-xs text-white/60">Day Streak</span>
-                    </button>
-                    <button
+                      </Icon>
+                      <Text fontSize="lg" fontWeight="bold" color="accent.400">{currentStreak}</Text>
+                      <Text fontSize="xs" color="whiteAlpha.600">Day Streak</Text>
+                    </Button>
+                    <Button
                       onClick={() => {
                         setShowAchievements(true);
                         setSidebarOpen(false);
                       }}
                       aria-label="View points"
-                      className="flex flex-col items-center gap-1.5 p-3 bg-accent-500/10 rounded-xl active:bg-accent-500/15 transition-all"
+                      flexDir="column"
+                      gap={1.5}
+                      p={3}
+                      bg="accent.500"
+                      opacity={0.1}
+                      borderRadius="xl"
+                      h="auto"
+                      _active={{ bg: 'accent.500', opacity: 0.15 }}
+                      transition="all 0.3s"
                     >
-                      <svg className="w-6 h-6 text-accent-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <Icon viewBox="0 0 24 24" w={6} h={6} color="accent.400" fill="currentColor" aria-hidden="true">
                         <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                      </svg>
-                      <span className="text-lg font-bold text-accent-400">{totalPoints}</span>
-                      <span className="text-xs text-white/60">Points</span>
-                    </button>
-                  </div>
-                </div>
+                      </Icon>
+                      <Text fontSize="lg" fontWeight="bold" color="accent.400">{totalPoints}</Text>
+                      <Text fontSize="xs" color="whiteAlpha.600">Points</Text>
+                    </Button>
+                  </Grid>
+                </Box>
 
-                {/* Navigation */}
-                <nav className="flex-1 px-4 py-4 space-y-1">
+                {/* Navigation - Mobile */}
+                <Box as="nav" flex={1} px={4} py={4} css={{ '& > *': { marginBottom: '4px' } }}>
                   {navigationItems.map((item) => (
-                    <button
+                    <Button
                       key={item.id}
                       onClick={() => {
                         setActiveTab(item.id as Tab);
                         setSidebarOpen(false);
                       }}
                       aria-label={`Navigate to ${item.label}`}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-                        activeTab === item.id
-                          ? 'bg-accent-500/20 text-accent-300'
-                          : 'text-white/70 active:bg-primary-700/50'
-                      }`}
+                      w="full"
+                      justifyContent="flex-start"
+                      gap={3}
+                      px={4}
+                      py={3}
+                      borderRadius="xl"
+                      transition="all 0.3s"
+                      bg={activeTab === item.id ? 'accent.500' : 'transparent'}
+                      opacity={activeTab === item.id ? 0.2 : 1}
+                      color={activeTab === item.id ? 'accent.300' : 'whiteAlpha.700'}
+                      _active={{
+                        bg: activeTab === item.id ? 'accent.500' : 'primary.700',
+                        opacity: activeTab === item.id ? 0.2 : 0.5,
+                      }}
                     >
-                      <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <Icon viewBox="0 0 24 24" w={5} h={5} flexShrink={0} fill="none" stroke="currentColor" aria-hidden="true">
                         {item.icon}
-                      </svg>
-                      <span className="font-medium">{item.label}</span>
-                    </button>
+                      </Icon>
+                      <Text fontWeight="medium">{item.label}</Text>
+                    </Button>
                   ))}
-                </nav>
+                </Box>
 
-                {/* Achievements Button */}
-                <div className="px-4 py-4 border-t border-accent-500/10">
-                  <button
+                {/* Achievements Button - Mobile */}
+                <Box px={4} py={4} borderTop="1px solid" borderColor="accent.500" opacity={0.1}>
+                  <Button
                     onClick={() => {
                       setShowAchievements(true);
                       setSidebarOpen(false);
                     }}
                     aria-label="View all achievements"
-                    className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-accent-500 to-accent-600 text-white rounded-xl active:from-accent-600 active:to-accent-700 transition-all shadow-lg shadow-accent-500/20"
+                    w="full"
+                    gap={3}
+                    px={4}
+                    py={3}
+                    bgGradient="linear(to-r, accent.500, accent.600)"
+                    color="white"
+                    borderRadius="xl"
+                    boxShadow="lg"
+                    _active={{ bgGradient: 'linear(to-r, accent.600, accent.700)' }}
+                    transition="all 0.3s"
                   >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <Icon viewBox="0 0 24 24" w={5} h={5} fill="currentColor" aria-hidden="true">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
-                    <span className="font-semibold">Achievements</span>
-                  </button>
-                </div>
-              </div>
-            </aside>
+                    </Icon>
+                    <Text fontWeight="semibold">Achievements</Text>
+                  </Button>
+                </Box>
+              </Flex>
+            </Box>
           </>
         )}
 
         {/* Main Content */}
-        <main className="lg:pl-72">
+        <Box as="main" pl={{ base: 0, lg: 72 }}>
           {/* Mobile Header */}
-          <header className="sticky top-0 z-30 bg-primary-700/80 backdrop-blur-lg border-b border-accent-500/20 lg:hidden safe-top">
-            <div className="px-4 py-3 pt-safe">
-              <div className="flex items-center justify-between">
-                <button
+          <Box
+            as="header"
+            position="sticky"
+            top={0}
+            zIndex={30}
+            bg="primary.700"
+            opacity={0.8}
+            backdropFilter="blur(10px)"
+            borderBottom="1px solid"
+            borderColor="accent.500"
+            display={{ base: 'block', lg: 'none' }}
+          >
+            <Box px={4} py={3}>
+              <Flex align="center" justify="space-between">
+                <Button
                   onClick={() => setSidebarOpen(true)}
                   aria-label="Open menu"
-                  className="w-11 h-11 flex items-center justify-center text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-accent-400 rounded-lg"
+                  w={11}
+                  h={11}
+                  color="whiteAlpha.700"
+                  bg="transparent"
+                  _hover={{ color: 'white' }}
+                  transition="colors 0.3s"
+                  _focus={{ ring: 2, ringColor: 'accent.400' }}
+                  borderRadius="lg"
                 >
-                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <Icon viewBox="0 0 24 24" w={6} h={6} fill="none" stroke="currentColor" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                </button>
+                  </Icon>
+                </Button>
 
-                <div className="text-center flex flex-col items-center">
-                  <img src="/alumina-isotipo.webp" alt="Alumina" className="w-10 h-12 sm:w-12 sm:h-14" />
-                  <p className="text-[10px] sm:text-xs text-accent-200/60 leading-tight mt-1">At Home</p>
-                </div>
+                <Flex textAlign="center" flexDir="column" align="center">
+                  <Box w={{ base: 10, sm: 12 }} h={{ base: 12, sm: 14 }}>
+                    <Image src="/alumina-isotipo.webp" alt="Alumina" width={48} height={56} />
+                  </Box>
+                  <Text fontSize={{ base: '10px', sm: 'xs' }} color="accent.200" opacity={0.6} lineHeight="tight" mt={1}>
+                    At Home
+                  </Text>
+                </Flex>
 
-                <button
+                <Button
                   onClick={() => setShowAchievements(true)}
                   aria-label="View achievements"
-                  className="w-11 h-11 flex items-center justify-center bg-accent-500/10 rounded-lg active:bg-accent-500/20 transition-all focus:outline-none focus:ring-2 focus:ring-accent-400"
+                  w={11}
+                  h={11}
+                  bg="accent.500"
+                  opacity={0.1}
+                  borderRadius="lg"
+                  _active={{ bg: 'accent.500', opacity: 0.2 }}
+                  transition="all 0.3s"
+                  _focus={{ ring: 2, ringColor: 'accent.400' }}
                 >
-                  <svg className="w-5 h-5 text-accent-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <Icon viewBox="0 0 24 24" w={5} h={5} color="accent.400" fill="currentColor" aria-hidden="true">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </header>
+                  </Icon>
+                </Button>
+              </Flex>
+            </Box>
+          </Box>
 
           {/* Desktop Header */}
-          <header className="hidden lg:block sticky top-0 z-30 bg-primary-700/80 backdrop-blur-lg border-b border-accent-500/20">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-white">
+          <Box
+            as="header"
+            display={{ base: 'none', lg: 'block' }}
+            position="sticky"
+            top={0}
+            zIndex={30}
+            bg="primary.700"
+            opacity={0.8}
+            backdropFilter="blur(10px)"
+            borderBottom="1px solid"
+            borderColor="accent.500"
+          >
+            <Box maxW="7xl" mx="auto" px={{ base: 4, sm: 6, lg: 8 }} py={4}>
+              <Flex align="center" justify="space-between">
+                <Box>
+                  <Heading as="h2" size={{ base: 'xl', sm: '2xl' }} color="white">
                     {navigationItems.find(item => item.id === activeTab)?.label || 'Dashboard'}
-                  </h2>
-                  <p className="text-sm sm:text-base text-white/60 mt-1">
+                  </Heading>
+                  <Text fontSize={{ base: 'sm', sm: 'base' }} color="whiteAlpha.600" mt={1}>
                     {activeTab === 'dashboard' && 'Your longevity journey overview'}
                     {activeTab === 'protocols' && 'Evidence-based daily practices'}
                     {activeTab === 'supplements' && 'Optimized supplement stack'}
@@ -351,120 +556,186 @@ export default function Home() {
                     {activeTab === 'videos' && 'Master every protocol'}
                     {activeTab === 'equipment' && 'Curated longevity tools'}
                     {activeTab === 'profile' && 'Manage your account'}
-                  </p>
-                </div>
+                  </Text>
+                </Box>
 
-                <div className="flex items-center gap-3">
-                  <button
+                <Flex align="center" gap={3}>
+                  <Button
                     onClick={() => setShowAchievements(true)}
                     aria-label="View streak and points"
-                    className="flex items-center gap-4 px-4 py-2 bg-accent-500/10 rounded-xl hover:bg-accent-500/15 transition-all focus:outline-none focus:ring-2 focus:ring-accent-400"
+                    px={4}
+                    py={2}
+                    bg="accent.500"
+                    opacity={0.1}
+                    borderRadius="xl"
+                    _hover={{ bg: 'accent.500', opacity: 0.15 }}
+                    transition="all 0.3s"
+                    _focus={{ ring: 2, ringColor: 'accent.400' }}
                   >
-                    <div className="flex items-center gap-2">
-                      <svg className="w-5 h-5 text-accent-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M12 2c1.5 1.5 3 3.5 3 5.5 0 2.5-1.5 4.5-3 4.5s-3-2-3-4.5c0-2 1.5-4 3-5.5zm0 18c-3.5 0-6-2.5-6-6 0-2 1-3.5 2-4.5.5 1.5 2 2.5 4 2.5s3.5-1 4-2.5c1 1 2 2.5 2 4.5 0 3.5-2.5 6-6 6z"/>
-                      </svg>
-                      <span className="font-semibold text-accent-400">{currentStreak} days</span>
-                    </div>
-                    <div className="w-px h-6 bg-white/20" />
-                    <div className="flex items-center gap-2">
-                      <svg className="w-5 h-5 text-accent-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                      </svg>
-                      <span className="font-semibold text-accent-400">{totalPoints} pts</span>
-                    </div>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </header>
+                    <Flex align="center" gap={4}>
+                      <Flex align="center" gap={2}>
+                        <Icon viewBox="0 0 24 24" w={5} h={5} color="accent.400" fill="currentColor" aria-hidden="true">
+                          <path d="M12 2c1.5 1.5 3 3.5 3 5.5 0 2.5-1.5 4.5-3 4.5s-3-2-3-4.5c0-2 1.5-4 3-5.5zm0 18c-3.5 0-6-2.5-6-6 0-2 1-3.5 2-4.5.5 1.5 2 2.5 4 2.5s3.5-1 4-2.5c1 1 2 2.5 2 4.5 0 3.5-2.5 6-6 6z"/>
+                        </Icon>
+                        <Text fontWeight="semibold" color="accent.400">{currentStreak} days</Text>
+                      </Flex>
+                      <Box w="1px" h={6} bg="whiteAlpha.200" />
+                      <Flex align="center" gap={2}>
+                        <Icon viewBox="0 0 24 24" w={5} h={5} color="accent.400" fill="currentColor" aria-hidden="true">
+                          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                        </Icon>
+                        <Text fontWeight="semibold" color="accent.400">{totalPoints} pts</Text>
+                      </Flex>
+                    </Flex>
+                  </Button>
+                </Flex>
+              </Flex>
+            </Box>
+          </Box>
 
           {/* Content */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 pb-24 lg:pb-8">
+          <Box maxW="7xl" mx="auto" px={{ base: 4, sm: 6, lg: 8 }} py={{ base: 6, sm: 8 }} pb={{ base: 24, lg: 8 }}>
             {renderContent()}
-          </div>
-        </main>
+          </Box>
+        </Box>
 
-        {/* Mobile Bottom Navigation - Simplified to 5 items */}
-        <nav className="fixed bottom-0 left-0 right-0 bg-primary-700/95 backdrop-blur-lg border-t border-accent-500/20 safe-bottom lg:hidden" role="navigation" aria-label="Mobile navigation">
-          <div className="flex justify-around items-center px-2 py-2 pb-safe">
-            <button
+        {/* Mobile Bottom Navigation */}
+        <Box
+          as="nav"
+          position="fixed"
+          bottom={0}
+          left={0}
+          right={0}
+          bg="primary.700"
+          opacity={0.95}
+          backdropFilter="blur(10px)"
+          borderTop="1px solid"
+          borderColor="accent.500"
+          display={{ base: 'block', lg: 'none' }}
+          role="navigation"
+          aria-label="Mobile navigation"
+        >
+          <Flex justify="space-around" align="center" px={2} py={2}>
+            <Button
               onClick={() => setActiveTab('dashboard')}
               aria-label="Dashboard"
               aria-current={activeTab === 'dashboard' ? 'page' : undefined}
-              className={`flex flex-col items-center justify-center min-w-[64px] min-h-[56px] px-3 rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-accent-400 ${
-                activeTab === 'dashboard'
-                  ? 'bg-accent-500/20 text-accent-400'
-                  : 'text-white/40 active:text-white/60'
-              }`}
+              flexDir="column"
+              alignItems="center"
+              justifyContent="center"
+              minW="64px"
+              minH="56px"
+              px={3}
+              borderRadius="lg"
+              transition="all 0.3s"
+              bg={activeTab === 'dashboard' ? 'accent.500' : 'transparent'}
+              opacity={activeTab === 'dashboard' ? 0.2 : 1}
+              color={activeTab === 'dashboard' ? 'accent.400' : 'whiteAlpha.400'}
+              _active={{ color: activeTab === 'dashboard' ? 'accent.400' : 'whiteAlpha.600' }}
+              _focus={{ ring: 2, ringColor: 'accent.400' }}
             >
-              <svg className="w-6 h-6 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <Icon viewBox="0 0 24 24" w={6} h={6} mb={0.5} fill="none" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-              </svg>
-              <span className="text-[10px] leading-tight font-medium">Home</span>
-            </button>
+              </Icon>
+              <Text fontSize="10px" lineHeight="tight" fontWeight="medium">Home</Text>
+            </Button>
 
-            <button
+            <Button
               onClick={() => setActiveTab('protocols')}
               aria-label="Protocols"
               aria-current={activeTab === 'protocols' ? 'page' : undefined}
-              className={`flex flex-col items-center justify-center min-w-[64px] min-h-[56px] px-3 rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-accent-400 ${
-                activeTab === 'protocols'
-                  ? 'bg-accent-500/20 text-accent-400'
-                  : 'text-white/40 active:text-white/60'
-              }`}
+              flexDir="column"
+              alignItems="center"
+              justifyContent="center"
+              minW="64px"
+              minH="56px"
+              px={3}
+              borderRadius="lg"
+              transition="all 0.3s"
+              bg={activeTab === 'protocols' ? 'accent.500' : 'transparent'}
+              opacity={activeTab === 'protocols' ? 0.2 : 1}
+              color={activeTab === 'protocols' ? 'accent.400' : 'whiteAlpha.400'}
+              _active={{ color: activeTab === 'protocols' ? 'accent.400' : 'whiteAlpha.600' }}
+              _focus={{ ring: 2, ringColor: 'accent.400' }}
             >
-              <svg className="w-6 h-6 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <Icon viewBox="0 0 24 24" w={6} h={6} mb={0.5} fill="none" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-              </svg>
-              <span className="text-[10px] leading-tight font-medium">Protocols</span>
-            </button>
+              </Icon>
+              <Text fontSize="10px" lineHeight="tight" fontWeight="medium">Protocols</Text>
+            </Button>
 
-            <button
+            <Button
               onClick={() => setActiveTab('supplements')}
               aria-label="Supplements"
               aria-current={activeTab === 'supplements' ? 'page' : undefined}
-              className={`flex flex-col items-center justify-center min-w-[64px] min-h-[56px] px-3 rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-accent-400 ${
-                activeTab === 'supplements'
-                  ? 'bg-accent-500/20 text-accent-400'
-                  : 'text-white/40 active:text-white/60'
-              }`}
+              flexDir="column"
+              alignItems="center"
+              justifyContent="center"
+              minW="64px"
+              minH="56px"
+              px={3}
+              borderRadius="lg"
+              transition="all 0.3s"
+              bg={activeTab === 'supplements' ? 'accent.500' : 'transparent'}
+              opacity={activeTab === 'supplements' ? 0.2 : 1}
+              color={activeTab === 'supplements' ? 'accent.400' : 'whiteAlpha.400'}
+              _active={{ color: activeTab === 'supplements' ? 'accent.400' : 'whiteAlpha.600' }}
+              _focus={{ ring: 2, ringColor: 'accent.400' }}
             >
-              <svg className="w-6 h-6 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <Icon viewBox="0 0 24 24" w={6} h={6} mb={0.5} fill="none" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-              </svg>
-              <span className="text-[10px] leading-tight font-medium">Supps</span>
-            </button>
+              </Icon>
+              <Text fontSize="10px" lineHeight="tight" fontWeight="medium">Supps</Text>
+            </Button>
 
-            <button
+            <Button
               onClick={() => setActiveTab('progress')}
               aria-label="Progress"
               aria-current={activeTab === 'progress' ? 'page' : undefined}
-              className={`flex flex-col items-center justify-center min-w-[64px] min-h-[56px] px-3 rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-accent-400 ${
-                activeTab === 'progress'
-                  ? 'bg-accent-500/20 text-accent-400'
-                  : 'text-white/40 active:text-white/60'
-              }`}
+              flexDir="column"
+              alignItems="center"
+              justifyContent="center"
+              minW="64px"
+              minH="56px"
+              px={3}
+              borderRadius="lg"
+              transition="all 0.3s"
+              bg={activeTab === 'progress' ? 'accent.500' : 'transparent'}
+              opacity={activeTab === 'progress' ? 0.2 : 1}
+              color={activeTab === 'progress' ? 'accent.400' : 'whiteAlpha.400'}
+              _active={{ color: activeTab === 'progress' ? 'accent.400' : 'whiteAlpha.600' }}
+              _focus={{ ring: 2, ringColor: 'accent.400' }}
             >
-              <svg className="w-6 h-6 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <Icon viewBox="0 0 24 24" w={6} h={6} mb={0.5} fill="none" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-              <span className="text-[10px] leading-tight font-medium">Stats</span>
-            </button>
+              </Icon>
+              <Text fontSize="10px" lineHeight="tight" fontWeight="medium">Stats</Text>
+            </Button>
 
-            <button
+            <Button
               onClick={() => setSidebarOpen(true)}
               aria-label="More options"
-              className="flex flex-col items-center justify-center min-w-[64px] min-h-[56px] px-3 rounded-lg text-white/40 active:text-white/60 transition-all focus:outline-none focus:ring-2 focus:ring-accent-400"
+              flexDir="column"
+              alignItems="center"
+              justifyContent="center"
+              minW="64px"
+              minH="56px"
+              px={3}
+              borderRadius="lg"
+              color="whiteAlpha.400"
+              bg="transparent"
+              _active={{ color: 'whiteAlpha.600' }}
+              transition="all 0.3s"
+              _focus={{ ring: 2, ringColor: 'accent.400' }}
             >
-              <svg className="w-6 h-6 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <Icon viewBox="0 0 24 24" w={6} h={6} mb={0.5} fill="none" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-              <span className="text-[10px] leading-tight font-medium">More</span>
-            </button>
-          </div>
-        </nav>
-      </div>
+              </Icon>
+              <Text fontSize="10px" lineHeight="tight" fontWeight="medium">More</Text>
+            </Button>
+          </Flex>
+        </Box>
+      </Box>
     </>
   );
 }

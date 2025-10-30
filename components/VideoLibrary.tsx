@@ -1,7 +1,32 @@
 'use client';
 
 import { useState } from 'react';
-import ReactPlayer from 'react-player';
+import Image from 'next/image';
+import dynamic from 'next/dynamic';
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Button,
+  Grid,
+  Icon,
+  Badge,
+} from '@chakra-ui/react';
+
+// Define proper type for ReactPlayer
+type ReactPlayerProps = {
+  url: string;
+  width?: string | number;
+  height?: string | number;
+  controls?: boolean;
+  playing?: boolean;
+};
+
+const ReactPlayer = dynamic(
+  () => import('react-player').then(mod => mod.default),
+  { ssr: false }
+) as React.ComponentType<ReactPlayerProps>;
 
 interface Video {
   id: string;
@@ -84,120 +109,313 @@ export default function VideoLibrary() {
     <>
       {/* Video Player Modal */}
       {selectedVideo && (
-        <div className="fixed inset-0 z-50 bg-primary-900/95 backdrop-blur-lg flex items-center justify-center p-4">
-          <div className="max-w-5xl w-full">
-            <div className="bg-primary-600/50 border border-primary-400/30 rounded-2xl overflow-hidden shadow-2xl">
+        <Box
+          position="fixed"
+          inset={0}
+          zIndex={50}
+          bg="primary.900"
+          opacity={0.95}
+          backdropFilter="blur(10px)"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          p={4}
+        >
+          <Box maxW="5xl" w="full">
+            <Box
+              bg="primary.600"
+              opacity={0.5}
+              borderWidth="1px"
+              borderColor="primary.400"
+              borderRadius="2xl"
+              overflow="hidden"
+              boxShadow="2xl"
+            >
               {/* Close Button */}
-              <button
+              <Button
                 onClick={() => setSelectedVideo(null)}
                 aria-label="Close video player"
-                className="absolute top-4 right-4 z-10 w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center bg-primary-700/80 backdrop-blur-sm rounded-full text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-accent-400"
+                position="absolute"
+                top={4}
+                right={4}
+                zIndex={10}
+                w={{ base: 11, sm: 12 }}
+                h={{ base: 11, sm: 12 }}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                bg="primary.700"
+                opacity={0.8}
+                backdropFilter="blur(4px)"
+                borderRadius="full"
+                color="whiteAlpha.700"
+                _hover={{ color: 'white' }}
+                transition="colors 0.3s"
+                _focus={{ ring: 2, ringColor: 'accent.400' }}
               >
-                <svg className="w-6 h-6 sm:w-7 sm:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <Icon viewBox="0 0 24 24" w={{ base: 6, sm: 7 }} h={{ base: 6, sm: 7 }} fill="none" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
+                </Icon>
+              </Button>
 
               {/* Video Player */}
-              <div className="aspect-video bg-black">
+              <Box aspectRatio={16 / 9} bg="black">
                 <ReactPlayer
-                  {...{
-                    url: selectedVideo.url,
-                    width: "100%",
-                    height: "100%",
-                    controls: true,
-                    playing: true
-                  } as any}
+                  url={selectedVideo.url}
+                  width="100%"
+                  height="100%"
+                  controls
+                  playing
                 />
-              </div>
+              </Box>
 
               {/* Video Info */}
-              <div className="p-5 sm:p-6 lg:p-8">
-                <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-3">{selectedVideo.title}</h3>
-                <p className="text-white/70 text-sm sm:text-base mb-4">{selectedVideo.description}</p>
-                <div className="flex items-center gap-3 sm:gap-4 text-sm sm:text-base text-white/50 flex-wrap">
-                  <span>Duration: {selectedVideo.duration}</span>
-                  <span>•</span>
-                  <span className="capitalize">{selectedVideo.category}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+              <Box p={{ base: 5, sm: 6, lg: 8 }}>
+                <Heading
+                  as="h3"
+                  size={{ base: 'lg', sm: 'xl', lg: '2xl' }}
+                  color="white"
+                  mb={{ base: 2, sm: 3 }}
+                >
+                  {selectedVideo.title}
+                </Heading>
+                <Text color="whiteAlpha.700" fontSize={{ base: 'sm', sm: 'base' }} mb={4}>
+                  {selectedVideo.description}
+                </Text>
+                <Flex
+                  align="center"
+                  gap={{ base: 3, sm: 4 }}
+                  fontSize={{ base: 'sm', sm: 'base' }}
+                  color="whiteAlpha.500"
+                  flexWrap="wrap"
+                >
+                  <Text>Duration: {selectedVideo.duration}</Text>
+                  <Text>•</Text>
+                  <Text textTransform="capitalize">{selectedVideo.category}</Text>
+                </Flex>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
       )}
 
-      <div className="space-y-6 sm:space-y-8">
+      <Flex direction="column" gap={{ base: 6, sm: 8 }}>
         {/* Category Filter */}
-        <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 sm:mx-0 px-4 sm:px-0">
+        <Flex
+          gap={2}
+          overflowX="auto"
+          pb={2}
+          mx={{ base: -4, sm: 0 }}
+          px={{ base: 4, sm: 0 }}
+        >
           {categories.map((category) => (
-            <button
+            <Button
               key={category}
               onClick={() => setActiveCategory(category)}
               aria-label={`Filter by ${category}`}
               aria-current={activeCategory === category ? 'true' : undefined}
-              className={`px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-sm sm:text-base whitespace-nowrap transition-all focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-primary-900 ${
-                activeCategory === category
-                  ? 'bg-accent-500/20 border border-accent-500/30 text-accent-300 shadow-lg'
-                  : 'bg-primary-600/50 border border-primary-400/30 text-white/60 hover:bg-primary-600/70 hover:text-white/80'
-              }`}
+              px={{ base: 4, sm: 5 }}
+              py={{ base: 2, sm: 2.5 }}
+              borderRadius="full"
+              fontSize={{ base: 'sm', sm: 'base' }}
+              whiteSpace="nowrap"
+              transition="all 0.3s"
+              bg={activeCategory === category ? 'accent.500' : 'primary.600'}
+              opacity={activeCategory === category ? 0.2 : 0.5}
+              borderWidth="1px"
+              borderColor={activeCategory === category ? 'accent.500' : 'primary.400'}
+              color={activeCategory === category ? 'accent.300' : 'whiteAlpha.600'}
+              boxShadow={activeCategory === category ? 'lg' : 'none'}
+              _hover={{
+                bg: activeCategory === category ? 'accent.500' : 'primary.600',
+                opacity: activeCategory === category ? 0.2 : 0.7,
+                color: activeCategory === category ? 'accent.300' : 'whiteAlpha.800',
+              }}
+              _focus={{
+                ring: 2,
+                ringColor: 'accent.400',
+                ringOffset: 2,
+                ringOffsetColor: 'primary.900',
+              }}
             >
               {category.charAt(0).toUpperCase() + category.slice(1)}
-            </button>
+            </Button>
           ))}
-        </div>
+        </Flex>
 
         {/* Video Grid */}
         {filteredVideos.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-            {filteredVideos.map((video, index) => (
-              <button
+          <Grid templateColumns={{ base: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={{ base: 4, sm: 5 }}>
+            {filteredVideos.map((video) => (
+              <Button
                 key={video.id}
                 onClick={() => setSelectedVideo(video)}
                 aria-label={`Play ${video.title}`}
-                className="bg-primary-600/50 border border-primary-400/30 rounded-xl overflow-hidden hover:bg-primary-600/60 hover:border-primary-400/50 hover:shadow-xl transition-all text-left group focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-primary-900"
+                bg="primary.600"
+                opacity={0.5}
+                borderWidth="1px"
+                borderColor="primary.400"
+                borderRadius="xl"
+                overflow="hidden"
+                textAlign="left"
+                h="auto"
+                p={0}
+                flexDir="column"
+                alignItems="stretch"
+                _hover={{
+                  bg: 'primary.600',
+                  opacity: 0.6,
+                  borderColor: 'primary.400',
+                  boxShadow: 'xl',
+                }}
+                transition="all 0.3s"
+                _focus={{
+                  ring: 2,
+                  ringColor: 'accent.400',
+                  ringOffset: 2,
+                  ringOffsetColor: 'primary.900',
+                }}
               >
                 {/* Thumbnail */}
-                <div className="relative aspect-video bg-primary-700">
-                  <img src={video.thumbnail} alt="" className="w-full h-full object-cover" aria-hidden="true" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/70 backdrop-blur-sm rounded text-xs sm:text-sm text-white font-medium">
+                <Box position="relative" aspectRatio={16 / 9} bg="primary.700">
+                  <Image src={video.thumbnail} alt={`${video.title} thumbnail`} fill style={{ objectFit: 'cover' }} />
+                  <Box
+                    position="absolute"
+                    inset={0}
+                    bgGradient="linear(to-t, blackAlpha.600, transparent)"
+                  />
+                  <Box
+                    position="absolute"
+                    bottom={2}
+                    right={2}
+                    px={2}
+                    py={1}
+                    bg="blackAlpha.700"
+                    backdropFilter="blur(4px)"
+                    borderRadius="md"
+                    fontSize={{ base: 'xs', sm: 'sm' }}
+                    color="white"
+                    fontWeight="medium"
+                  >
                     {video.duration}
-                  </div>
+                  </Box>
                   {/* Play Icon */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-14 h-14 sm:w-16 sm:h-16 bg-accent-500/90 rounded-full flex items-center justify-center group-hover:scale-110 group-hover:bg-accent-500 transition-all shadow-lg">
-                      <svg className="w-7 h-7 sm:w-8 sm:h-8 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <Flex position="absolute" inset={0} align="center" justify="center">
+                    <Flex
+                      w={{ base: 14, sm: 16 }}
+                      h={{ base: 14, sm: 16 }}
+                      bg="accent.500"
+                      opacity={0.9}
+                      borderRadius="full"
+                      align="center"
+                      justify="center"
+                      transition="all 0.3s"
+                      boxShadow="lg"
+                      _groupHover={{ transform: 'scale(1.1)', bg: 'accent.500' }}
+                    >
+                      <Icon
+                        viewBox="0 0 24 24"
+                        w={{ base: 7, sm: 8 }}
+                        h={{ base: 7, sm: 8 }}
+                        color="white"
+                        fill="currentColor"
+                        ml={0.5}
+                        aria-hidden="true"
+                      >
                         <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
+                      </Icon>
+                    </Flex>
+                  </Flex>
+                </Box>
 
                 {/* Info */}
-                <div className="p-4 sm:p-5">
-                  <h3 className="text-white font-semibold text-base sm:text-lg mb-1.5 line-clamp-2">{video.title}</h3>
-                  <p className="text-white/60 text-sm sm:text-base line-clamp-2 mb-3">{video.description}</p>
-                  <div className="mt-2">
-                    <span className="text-xs sm:text-sm px-2.5 py-1 bg-accent-500/20 text-accent-300 rounded-full capitalize font-medium">
+                <Box p={{ base: 4, sm: 5 }}>
+                  <Heading
+                    as="h3"
+                    size={{ base: 'sm', sm: 'md' }}
+                    color="white"
+                    mb={1.5}
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    display="-webkit-box"
+                    css={{
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                    }}
+                  >
+                    {video.title}
+                  </Heading>
+                  <Text
+                    color="whiteAlpha.600"
+                    fontSize={{ base: 'sm', sm: 'base' }}
+                    mb={3}
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    display="-webkit-box"
+                    css={{
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                    }}
+                  >
+                    {video.description}
+                  </Text>
+                  <Box mt={2}>
+                    <Badge
+                      fontSize={{ base: 'xs', sm: 'sm' }}
+                      px={2.5}
+                      py={1}
+                      bg="accent.500"
+                      opacity={0.2}
+                      color="accent.300"
+                      borderRadius="full"
+                      textTransform="capitalize"
+                      fontWeight="medium"
+                    >
                       {video.category}
-                    </span>
-                  </div>
-                </div>
-              </button>
+                    </Badge>
+                  </Box>
+                </Box>
+              </Button>
             ))}
-          </div>
+          </Grid>
         ) : (
-          <div className="flex flex-col items-center justify-center py-16 sm:py-20 px-4">
-            <div className="w-20 h-20 sm:w-24 sm:h-24 bg-primary-600/30 rounded-full flex items-center justify-center mb-4">
-              <svg className="w-10 h-10 sm:w-12 sm:h-12 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <p className="text-white/60 text-center mb-2 text-base sm:text-lg">No videos found</p>
-            <p className="text-white/40 text-sm sm:text-base text-center">Try selecting a different category</p>
-          </div>
+          <Flex direction="column" align="center" justify="center" py={{ base: 16, sm: 20 }} px={4}>
+            <Flex
+              w={{ base: 20, sm: 24 }}
+              h={{ base: 20, sm: 24 }}
+              bg="primary.600"
+              opacity={0.3}
+              borderRadius="full"
+              align="center"
+              justify="center"
+              mb={4}
+            >
+              <Icon
+                viewBox="0 0 24 24"
+                w={{ base: 10, sm: 12 }}
+                h={{ base: 10, sm: 12 }}
+                color="whiteAlpha.400"
+                fill="none"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                />
+              </Icon>
+            </Flex>
+            <Text color="whiteAlpha.600" textAlign="center" mb={2} fontSize={{ base: 'base', sm: 'lg' }}>
+              No videos found
+            </Text>
+            <Text color="whiteAlpha.400" fontSize={{ base: 'sm', sm: 'base' }} textAlign="center">
+              Try selecting a different category
+            </Text>
+          </Flex>
         )}
-      </div>
+      </Flex>
     </>
   );
 }

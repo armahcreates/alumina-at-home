@@ -2,6 +2,16 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Button,
+  Grid,
+  Icon,
+  Badge,
+} from '@chakra-ui/react';
 
 export default function Protocols() {
   const [selectedProtocol, setSelectedProtocol] = useState<string | null>(null);
@@ -108,139 +118,322 @@ export default function Protocols() {
     : protocols.filter(p => p.category === activeCategory);
 
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <Flex direction="column" gap={{ base: 6, sm: 8 }}>
       {/* Category Filters */}
-      <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 sm:mx-0 px-4 sm:px-0">
+      <Flex
+        gap={2}
+        overflowX="auto"
+        pb={2}
+        mx={{ base: -4, sm: 0 }}
+        px={{ base: 4, sm: 0 }}
+      >
         {categories.map((category) => (
-          <button
+          <Button
             key={category}
             onClick={() => setActiveCategory(category)}
             aria-label={`Filter by ${category === 'all' ? 'all protocols' : category}`}
             aria-current={activeCategory === category ? 'true' : undefined}
-            className={`px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-sm sm:text-base whitespace-nowrap transition-all focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-primary-900 ${
-              activeCategory === category
-                ? 'bg-accent-500/20 border border-accent-500/30 text-accent-300 shadow-lg'
-                : 'bg-primary-600/50 border border-primary-400/30 text-white/60 hover:bg-primary-600/70 hover:text-white/80'
-            }`}
+            px={{ base: 4, sm: 5 }}
+            py={{ base: 2, sm: 2.5 }}
+            borderRadius="full"
+            fontSize={{ base: 'sm', sm: 'base' }}
+            whiteSpace="nowrap"
+            transition="all 0.3s"
+            bg={activeCategory === category ? 'accent.500' : 'primary.600'}
+            opacity={activeCategory === category ? 0.2 : 0.5}
+            borderWidth="1px"
+            borderColor={activeCategory === category ? 'accent.500' : 'primary.400'}
+            color={activeCategory === category ? 'accent.300' : 'whiteAlpha.600'}
+            boxShadow={activeCategory === category ? 'lg' : 'none'}
+            _hover={{
+              bg: activeCategory === category ? 'accent.500' : 'primary.600',
+              opacity: activeCategory === category ? 0.2 : 0.7,
+              color: activeCategory === category ? 'accent.300' : 'whiteAlpha.800',
+            }}
+            _focus={{
+              ring: 2,
+              ringColor: 'accent.400',
+              ringOffset: 2,
+              ringOffsetColor: 'primary.900',
+            }}
           >
             {category === 'all' ? 'All Protocols' : category}
-          </button>
+          </Button>
         ))}
-      </div>
+      </Flex>
 
       {/* Protocols List */}
       {filteredProtocols.length > 0 ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
+        <Grid templateColumns={{ base: '1fr', lg: 'repeat(2, 1fr)' }} gap={{ base: 4, sm: 5 }}>
           {filteredProtocols.map((protocol, index) => (
-          <motion.div
-            key={protocol.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.05, duration: 0.3 }}
-            className="bg-primary-600/50 border border-primary-400/30 rounded-2xl overflow-hidden hover:border-primary-400/50 transition-all"
-          >
-            <button
-              onClick={() => setSelectedProtocol(selectedProtocol === protocol.id ? null : protocol.id)}
-              aria-label={`${selectedProtocol === protocol.id ? 'Collapse' : 'Expand'} ${protocol.title} details`}
-              aria-expanded={selectedProtocol === protocol.id}
-              className="w-full p-4 sm:p-5 text-left hover:bg-primary-600/30 transition-all focus:outline-none focus:ring-2 focus:ring-inset focus:ring-accent-400"
+            <motion.div
+              key={protocol.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05, duration: 0.3 }}
             >
-              <div className="flex items-start justify-between mb-2">
-                <div className="flex-1 pr-4">
-                  <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                    <h3 className="text-base sm:text-lg font-semibold text-white">{protocol.title}</h3>
-                    <span className="px-2 py-0.5 bg-accent-500/20 text-accent-300 rounded text-xs sm:text-sm">
-                      {protocol.category}
-                    </span>
-                  </div>
-                  <p className="text-white/60 text-sm sm:text-base mb-2">{protocol.description}</p>
-                  <p className="text-white/40 text-xs sm:text-sm">Duration: {protocol.duration}</p>
-                </div>
-                <svg
-                  className={`w-5 h-5 sm:w-6 sm:h-6 text-white/40 transition-transform flex-shrink-0 ${selectedProtocol === protocol.id ? 'rotate-180' : ''}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </button>
-
-            {selectedProtocol === protocol.id && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="px-4 sm:px-5 pb-4 sm:pb-5 space-y-4 sm:space-y-5 border-t border-primary-400/30 pt-4 sm:pt-5"
+              <Box
+                bg="primary.600"
+                opacity={0.5}
+                borderWidth="1px"
+                borderColor="primary.400"
+                borderRadius="2xl"
+                overflow="hidden"
+                _hover={{ borderColor: 'primary.400', opacity: 0.5 }}
+                transition="all 0.3s"
               >
-                {/* Steps */}
-                <div>
-                  <h4 className="text-sm sm:text-base font-semibold text-white mb-3">Protocol Steps</h4>
-                  <div className="space-y-2.5">
-                    {protocol.steps.map((step, index) => (
-                      <div key={index} className="flex gap-3">
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-accent-500/20 flex items-center justify-center flex-shrink-0">
-                          <span className="text-accent-400 text-xs sm:text-sm font-semibold">{index + 1}</span>
-                        </div>
-                        <p className="text-white/70 text-sm sm:text-base pt-0.5">{step}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Benefits */}
-                <div>
-                  <h4 className="text-sm sm:text-base font-semibold text-white mb-3">Key Benefits</h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
-                    {protocol.benefits.map((benefit, index) => (
-                      <div key={index} className="flex items-center gap-2">
-                        <svg className="w-4 h-4 sm:w-5 sm:h-5 text-accent-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span className="text-white/70 text-sm sm:text-base">{benefit}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Action Button */}
-                <button
-                  aria-label={`Start ${protocol.title}`}
-                  className="w-full bg-gradient-to-r from-accent-500 to-accent-600 text-white font-semibold py-3 sm:py-3.5 rounded-xl mt-2 hover:from-accent-600 hover:to-accent-700 transition-all shadow-lg shadow-accent-500/20 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-primary-900"
+                <Button
+                  onClick={() => setSelectedProtocol(selectedProtocol === protocol.id ? null : protocol.id)}
+                  aria-label={`${selectedProtocol === protocol.id ? 'Collapse' : 'Expand'} ${protocol.title} details`}
+                  aria-expanded={selectedProtocol === protocol.id}
+                  w="full"
+                  p={{ base: 4, sm: 5 }}
+                  textAlign="left"
+                  bg="transparent"
+                  _hover={{ bg: 'primary.600', opacity: 0.3 }}
+                  transition="all 0.3s"
+                  _focus={{
+                    ring: 2,
+                    ringColor: 'accent.400',
+                  }}
+                  borderRadius={0}
+                  h="auto"
                 >
-                  Start This Protocol
-                </button>
-              </motion.div>
-            )}
-          </motion.div>
+                  <Flex align="flex-start" justify="space-between" mb={2} w="full">
+                    <Box flex={1} pr={4}>
+                      <Flex align="center" gap={2} mb={1.5} flexWrap="wrap">
+                        <Heading as="h3" size={{ base: 'sm', sm: 'md' }} color="white">
+                          {protocol.title}
+                        </Heading>
+                        <Badge
+                          px={2}
+                          py={0.5}
+                          bg="accent.500"
+                          opacity={0.2}
+                          color="accent.300"
+                          borderRadius="md"
+                          fontSize={{ base: 'xs', sm: 'sm' }}
+                        >
+                          {protocol.category}
+                        </Badge>
+                      </Flex>
+                      <Text color="whiteAlpha.600" fontSize={{ base: 'sm', sm: 'base' }} mb={2}>
+                        {protocol.description}
+                      </Text>
+                      <Text color="whiteAlpha.400" fontSize={{ base: 'xs', sm: 'sm' }}>
+                        Duration: {protocol.duration}
+                      </Text>
+                    </Box>
+                    <Icon
+                      viewBox="0 0 24 24"
+                      w={{ base: 5, sm: 6 }}
+                      h={{ base: 5, sm: 6 }}
+                      color="whiteAlpha.400"
+                      transition="transform 0.3s"
+                      transform={selectedProtocol === protocol.id ? 'rotate(180deg)' : undefined}
+                      flexShrink={0}
+                      fill="none"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </Icon>
+                  </Flex>
+                </Button>
+
+                {selectedProtocol === protocol.id && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Flex
+                      direction="column"
+                      gap={{ base: 4, sm: 5 }}
+                      px={{ base: 4, sm: 5 }}
+                      pb={{ base: 4, sm: 5 }}
+                      borderTop="1px solid"
+                      borderColor="primary.400"
+                      opacity={0.3}
+                      pt={{ base: 4, sm: 5 }}
+                    >
+                      {/* Steps */}
+                      <Box>
+                        <Heading as="h4" size={{ base: 'xs', sm: 'sm' }} color="white" mb={3}>
+                          Protocol Steps
+                        </Heading>
+                        <Flex direction="column" gap={2.5}>
+                          {protocol.steps.map((step, index) => (
+                            <Flex key={index} gap={3}>
+                              <Flex
+                                w={{ base: 6, sm: 7 }}
+                                h={{ base: 6, sm: 7 }}
+                                borderRadius="full"
+                                bg="accent.500"
+                                opacity={0.2}
+                                align="center"
+                                justify="center"
+                                flexShrink={0}
+                              >
+                                <Text color="accent.400" fontSize={{ base: 'xs', sm: 'sm' }} fontWeight="semibold">
+                                  {index + 1}
+                                </Text>
+                              </Flex>
+                              <Text color="whiteAlpha.700" fontSize={{ base: 'sm', sm: 'base' }} pt={0.5}>
+                                {step}
+                              </Text>
+                            </Flex>
+                          ))}
+                        </Flex>
+                      </Box>
+
+                      {/* Benefits */}
+                      <Box>
+                        <Heading as="h4" size={{ base: 'xs', sm: 'sm' }} color="white" mb={3}>
+                          Key Benefits
+                        </Heading>
+                        <Grid templateColumns={{ base: '1fr', sm: 'repeat(2, 1fr)' }} gap={{ base: 2, sm: 3 }}>
+                          {protocol.benefits.map((benefit, index) => (
+                            <Flex key={index} align="center" gap={2}>
+                              <Icon
+                                viewBox="0 0 24 24"
+                                w={{ base: 4, sm: 5 }}
+                                h={{ base: 4, sm: 5 }}
+                                color="accent.400"
+                                flexShrink={0}
+                                fill="none"
+                                stroke="currentColor"
+                                aria-hidden="true"
+                              >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </Icon>
+                              <Text color="whiteAlpha.700" fontSize={{ base: 'sm', sm: 'base' }}>
+                                {benefit}
+                              </Text>
+                            </Flex>
+                          ))}
+                        </Grid>
+                      </Box>
+
+                      {/* Action Button */}
+                      <Button
+                        aria-label={`Start ${protocol.title}`}
+                        w="full"
+                        bgGradient="linear(to-r, accent.500, accent.600)"
+                        color="white"
+                        fontWeight="semibold"
+                        py={{ base: 3, sm: 3.5 }}
+                        borderRadius="xl"
+                        mt={2}
+                        boxShadow="lg"
+                        _hover={{
+                          bgGradient: 'linear(to-r, accent.600, accent.700)',
+                        }}
+                        transition="all 0.3s"
+                        _focus={{
+                          ring: 2,
+                          ringColor: 'accent.400',
+                          ringOffset: 2,
+                          ringOffsetColor: 'primary.900',
+                        }}
+                      >
+                        Start This Protocol
+                      </Button>
+                    </Flex>
+                  </motion.div>
+                )}
+              </Box>
+            </motion.div>
           ))}
-        </div>
+        </Grid>
       ) : (
-        <div className="flex flex-col items-center justify-center py-16 sm:py-20 px-4">
-          <div className="w-20 h-20 sm:w-24 sm:h-24 bg-primary-600/30 rounded-full flex items-center justify-center mb-4">
-            <svg className="w-10 h-10 sm:w-12 sm:h-12 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-            </svg>
-          </div>
-          <p className="text-white/60 text-center mb-2 text-base sm:text-lg">No protocols found</p>
-          <p className="text-white/40 text-sm sm:text-base text-center">Try selecting a different category</p>
-        </div>
+        <Flex direction="column" align="center" justify="center" py={{ base: 16, sm: 20 }} px={4}>
+          <Flex
+            w={{ base: 20, sm: 24 }}
+            h={{ base: 20, sm: 24 }}
+            bg="primary.600"
+            opacity={0.3}
+            borderRadius="full"
+            align="center"
+            justify="center"
+            mb={4}
+          >
+            <Icon
+              viewBox="0 0 24 24"
+              w={{ base: 10, sm: 12 }}
+              h={{ base: 10, sm: 12 }}
+              color="whiteAlpha.400"
+              fill="none"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+              />
+            </Icon>
+          </Flex>
+          <Text color="whiteAlpha.600" textAlign="center" mb={2} fontSize={{ base: 'base', sm: 'lg' }}>
+            No protocols found
+          </Text>
+          <Text color="whiteAlpha.400" fontSize={{ base: 'sm', sm: 'base' }} textAlign="center">
+            Try selecting a different category
+          </Text>
+        </Flex>
       )}
 
       {/* Custom Protocol CTA */}
-      <div className="bg-gradient-to-br from-accent-500/10 to-accent-600/10 border border-accent-500/20 rounded-2xl p-5 sm:p-6 lg:p-8 text-center">
-        <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Need a Custom Protocol?</h3>
-        <p className="text-white/60 text-sm sm:text-base mb-4 sm:mb-5 max-w-2xl mx-auto">Work with our longevity specialists to create a personalized plan</p>
-        <button
+      <Box
+        bgGradient="linear(to-br, accent.500, accent.600)"
+        opacity={0.1}
+        borderWidth="1px"
+        borderColor="accent.500"
+        borderRadius="2xl"
+        p={{ base: 5, sm: 6, lg: 8 }}
+        textAlign="center"
+      >
+        <Heading as="h3" size={{ base: 'md', sm: 'lg' }} color="white" mb={2}>
+          Need a Custom Protocol?
+        </Heading>
+        <Text
+          color="whiteAlpha.600"
+          fontSize={{ base: 'sm', sm: 'base' }}
+          mb={{ base: 4, sm: 5 }}
+          maxW="2xl"
+          mx="auto"
+        >
+          Work with our longevity specialists to create a personalized plan
+        </Text>
+        <Button
           aria-label="Schedule consultation with specialist"
-          className="px-6 sm:px-8 py-2.5 sm:py-3 bg-accent-500/20 border border-accent-500/30 text-accent-300 rounded-full text-sm sm:text-base font-semibold hover:bg-accent-500/30 transition-all focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-primary-900"
+          px={{ base: 6, sm: 8 }}
+          py={{ base: 2.5, sm: 3 }}
+          bg="accent.500"
+          opacity={0.2}
+          borderWidth="1px"
+          borderColor="accent.500"
+          color="accent.300"
+          borderRadius="full"
+          fontSize={{ base: 'sm', sm: 'base' }}
+          fontWeight="semibold"
+          _hover={{
+            bg: 'accent.500',
+            opacity: 0.3,
+          }}
+          transition="all 0.3s"
+          _focus={{
+            ring: 2,
+            ringColor: 'accent.400',
+            ringOffset: 2,
+            ringOffsetColor: 'primary.900',
+          }}
         >
           Schedule Consultation
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Box>
+    </Flex>
   );
 }

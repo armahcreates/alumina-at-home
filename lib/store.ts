@@ -71,7 +71,8 @@ export const useStore = create<AppState>()(
       dailyMetrics: [],
 
       // Actions
-      login: (email: string, password: string) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      login: (email: string, _password: string) => {
         // Simple auth for MVP - replace with real auth later
         set({
           isAuthenticated: true,
