@@ -13,7 +13,7 @@ import {
   Badge,
   Link,
 } from '@chakra-ui/react';
-import { Check, TrendingUp, AlertTriangle, X, ExternalLink, Lightbulb } from 'lucide-react';
+import { Check, TrendingUp, AlertTriangle, X, ExternalLink, Lightbulb, Bed, UtensilsCrossed, Bath, Laptop } from 'lucide-react';
 
 interface Optimization {
   id: string;
@@ -37,7 +37,7 @@ export default function Environment() {
   const rooms = {
     bedroom: {
       name: 'Bedroom Optimization',
-      icon: 'BED',
+      icon: Bed,
       optimizations: [
         {
           id: 'bedroom-temp',
@@ -122,7 +122,7 @@ export default function Environment() {
     },
     kitchen: {
       name: 'Kitchen Optimization',
-      icon: 'KIT',
+      icon: UtensilsCrossed,
       optimizations: [
         {
           id: 'kitchen-water',
@@ -187,7 +187,7 @@ export default function Environment() {
     },
     bathroom: {
       name: 'Bathroom Optimization',
-      icon: 'BTH',
+      icon: Bath,
       optimizations: [
         {
           id: 'bathroom-shower',
@@ -251,7 +251,7 @@ export default function Environment() {
     },
     workspace: {
       name: 'Workspace Optimization',
-      icon: 'WRK',
+      icon: Laptop,
       optimizations: [
         {
           id: 'workspace-ergonomics',
@@ -396,9 +396,7 @@ export default function Environment() {
                   borderColor="primary.400"
                   mb={{ base: 2, sm: 3 }}
                 >
-                  <Text fontSize={{ base: 'xs', sm: 'sm' }} fontWeight="bold" color="accent.400">
-                    {room.icon}
-                  </Text>
+                  <Box as={room.icon} w={{ base: 6, sm: 7 }} h={{ base: 6, sm: 7 }} color="accent.400" />
                 </Flex>
                 <Text
                   fontWeight="semibold"
