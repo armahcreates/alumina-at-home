@@ -1,7 +1,5 @@
 @layer reset, base, tokens, recipes, utilities;
 
-/* Chakra UI handles all styling through the theme system */
-/* Custom CSS variables are preserved for compatibility */
 :root {
   --color-primary: #235B4E;
   --color-accent: #EFC2B3;
@@ -22,4 +20,8 @@ html {
 
 body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

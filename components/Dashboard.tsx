@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useForm } from 'react-hook-form';
 import { useStore } from '@/lib/store';
 import ProtocolTimer from './ProtocolTimer';
 import {
@@ -11,13 +12,16 @@ import {
   Text,
   Button,
   Grid,
-  Icon,
-  Badge
+  Badge,
+  Input,
+  Textarea
 } from '@chakra-ui/react';
+import { Zap, Moon, Heart, Flame, Check, Clock, FileText, Users, Calendar, X } from 'lucide-react';
 
 export default function Dashboard() {
   const { completedTasks, toggleTask, user } = useStore();
   const [activeTimer, setActiveTimer] = useState<{ id: string; name: string; duration: number } | null>(null);
+  const [showConsultationModal, setShowConsultationModal] = useState(false);
 
   const todayProtocols = [
     { id: 'morning-light', title: 'Morning Light Exposure', time: '6:30 AM', duration: 15, durationStr: '15 min', category: 'circadian' },
@@ -46,6 +50,22 @@ export default function Dashboard() {
     return 'Evening';
   };
 
+  const handleQuickAction = (index: number) => {
+    switch (index) {
+      case 0: // Start Timer - find first incomplete protocol
+        const nextProtocol = todayProtocols.find(p => !completedTasks.includes(p.id));
+        if (nextProtocol) startTimer(nextProtocol);
+        break;
+      case 1: // Resources - Coming Soon
+      case 2: // Community - Coming Soon
+        alert('Coming Soon!');
+        break;
+      case 3: // Consultation
+        setShowConsultationModal(true);
+        break;
+    }
+  };
+
   return (
     <>
       {/* Timer Modal */}
@@ -61,6 +81,11 @@ export default function Dashboard() {
         />
       )}
 
+      {/* Consultation Booking Modal */}
+      {showConsultationModal && (
+        <ConsultationModal onClose={() => setShowConsultationModal(false)} />
+      )}
+
       <Flex direction="column" gap={{ base: 6, sm: 8 }}>
         {/* Welcome Section */}
         <motion.div
@@ -69,17 +94,16 @@ export default function Dashboard() {
           transition={{ duration: 0.4 }}
         >
           <Box
-            bgGradient="linear(to-br, accent.500, accent.600)"
-          opacity={0.1}
+            bgGradient="linear(to-br, accent.500/10, accent.600/10)"
           borderWidth="1px"
-          borderColor="accent.500"
+          borderColor="accent.500/20"
           borderRadius="2xl"
           p={{ base: 5, sm: 6, lg: 8 }}
         >
           <Heading as="h2" size={{ base: "lg", sm: "xl", lg: "2xl" }} color="white" mb={1}>
             Good {getTimeOfDay()}, {user?.name || 'Friend'}
           </Heading>
-          <Text color="accent.200" opacity={0.7} fontSize={{ base: "sm", sm: "base" }} mb={{ base: 4, sm: 5 }}>
+          <Text color="whiteAlpha.700" fontSize={{ base: "sm", sm: "base" }} mb={{ base: 4, sm: 5 }}>
             Your longevity journey continues
           </Text>
 
@@ -146,43 +170,32 @@ export default function Dashboard() {
           gap={{ base: 3, sm: 4 }}
         >
           {[
-            { icon: 'M13 10V3L4 14h7v7l9-11h-7z', label: 'Energy', value: '8.2', unit: '/10', detail: '+15% from last week' },
-            { icon: 'M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z', label: 'Sleep', value: '7.5', unit: 'hrs', detail: '89% quality score' },
-            { icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z', label: 'HRV', value: '68', unit: 'ms', detail: '+26% improvement' },
-            { icon: 'M12 2c1.5 1.5 3 3.5 3 5.5 0 2.5-1.5 4.5-3 4.5s-3-2-3-4.5c0-2 1.5-4 3-5.5zm0 18c-3.5 0-6-2.5-6-6 0-2 1-3.5 2-4.5.5 1.5 2 2.5 4 2.5s3.5-1 4-2.5c1 1 2 2.5 2 4.5 0 3.5-2.5 6-6 6z', label: 'Streak', value: '12', unit: ' days', detail: 'Longest: 18 days', fill: true }
+            { icon: Zap, label: 'Energy', value: '8.2', unit: '/10', detail: '+15% from last week' },
+            { icon: Moon, label: 'Sleep', value: '7.5', unit: 'hrs', detail: '89% quality score' },
+            { icon: Heart, label: 'HRV', value: '68', unit: 'ms', detail: '+26% improvement' },
+            { icon: Flame, label: 'Streak', value: '12', unit: ' days', detail: 'Longest: 18 days' }
           ].map((stat, idx) => (
             <Box
               key={idx}
-              bg="primary.600"
-              opacity={0.5}
+              bg="primary.600/50"
               borderWidth="1px"
               borderColor="primary.400"
               borderRadius="xl"
               p={{ base: 3.5, sm: 4 }}
-              _hover={{ bg: "primary.600", opacity: 0.6 }}
+              _hover={{ bg: "primary.600/60" }}
               transition="all 0.2s"
             >
               <Flex align="center" gap={2} mb={2}>
                 <Flex
                   w={{ base: 7, sm: 8 }}
                   h={{ base: 7, sm: 8 }}
-                  bg="accent.500"
-                  opacity={0.2}
+                  bg="accent.500/20"
                   borderRadius="lg"
                   align="center"
                   justify="center"
                   flexShrink={0}
                 >
-                  <Icon viewBox="0 0 24 24" w={{ base: 4, sm: 5 }} h={{ base: 4, sm: 5 }} color="accent.400">
-                    <path
-                      fill={stat.fill ? "currentColor" : "none"}
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={stat.fill ? 0 : 2}
-                      d={stat.icon}
-                    />
-                  </Icon>
+                  <Box as={stat.icon} w={{ base: 4, sm: 5 }} h={{ base: 4, sm: 5 }} color="accent.400" />
                 </Flex>
                 <Text color="whiteAlpha.600" fontSize={{ base: "xs", sm: "sm" }}>
                   {stat.label}
@@ -224,9 +237,8 @@ export default function Dashboard() {
                   p={{ base: 3.5, sm: 4 }}
                   borderRadius="xl"
                   borderWidth="1px"
-                  bg={completedTasks.includes(protocol.id) ? "accent.500" : "primary.600"}
-                  opacity={completedTasks.includes(protocol.id) ? 0.1 : 0.5}
-                  borderColor={completedTasks.includes(protocol.id) ? "accent.500" : "primary.400"}
+                  bg={completedTasks.includes(protocol.id) ? "accent.500/10" : "primary.600/50"}
+                  borderColor={completedTasks.includes(protocol.id) ? "accent.500/20" : "primary.400"}
                   _hover={{ shadow: "lg" }}
                   transition="all 0.2s"
                 >
@@ -248,16 +260,7 @@ export default function Dashboard() {
                     _focus={{ ring: 2, ringColor: "accent.400", ringOffset: 2, ringOffsetColor: "primary.900" }}
                   >
                     {completedTasks.includes(protocol.id) && (
-                      <Icon viewBox="0 0 24 24" w={{ base: 5, sm: 6 }} h={{ base: 5, sm: 6 }} color="white">
-                        <path
-                          fill="none"
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={3}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </Icon>
+                      <Box as={Check} w={{ base: 5, sm: 6 }} h={{ base: 5, sm: 6 }} color="white" />
                     )}
                   </Button>
 
@@ -296,27 +299,17 @@ export default function Dashboard() {
                     minH="44px"
                     w={{ base: 11, sm: 12 }}
                     h={{ base: 11, sm: 12 }}
-                    bg="accent.500"
-                    opacity={0.2}
+                    bg="accent.500/20"
                     borderWidth="1px"
-                    borderColor="accent.500"
+                    borderColor="accent.500/20"
                     borderRadius="xl"
                     color="accent.400"
                     flexShrink={0}
-                    _hover={{ bg: "accent.500", opacity: 0.3 }}
-                    _active={{ bg: "accent.500", opacity: 0.4 }}
+                    _hover={{ bg: "accent.500/30" }}
+                    _active={{ bg: "accent.500/40" }}
                     _focus={{ ring: 2, ringColor: "accent.400", ringOffset: 2, ringOffsetColor: "primary.900" }}
                   >
-                    <Icon viewBox="0 0 24 24" w={{ base: 5, sm: 6 }} h={{ base: 5, sm: 6 }}>
-                      <path
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </Icon>
+                    <Box as={Clock} w={{ base: 5, sm: 6 }} h={{ base: 5, sm: 6 }} />
                   </Button>
                 </Flex>
               </Box>
@@ -337,16 +330,16 @@ export default function Dashboard() {
         >
           {[
             { label: 'Start Timer', desc: 'Breathwork session', gradient: true },
-            { label: 'Resources', desc: 'Learn more', gradient: false },
-            { label: 'Community', desc: 'Connect & share', gradient: false },
+            { label: 'Resources', desc: 'Coming Soon', gradient: false },
+            { label: 'Community', desc: 'Coming Soon', gradient: false },
             { label: 'Consultation', desc: 'Book a specialist', gradient: false }
           ].map((action, idx) => (
             <Button
               key={idx}
+              onClick={() => handleQuickAction(idx)}
               aria-label={action.label}
               bgGradient={action.gradient ? "linear(to-br, accent.500, accent.600)" : undefined}
-              bg={action.gradient ? undefined : "primary.600"}
-              opacity={action.gradient ? 1 : 0.5}
+              bg={action.gradient ? undefined : "primary.600/50"}
               borderWidth={action.gradient ? 0 : "1px"}
               borderColor="primary.400"
               borderRadius="xl"
@@ -358,8 +351,7 @@ export default function Dashboard() {
               boxShadow={action.gradient ? "lg" : "none"}
               _hover={{
                 bgGradient: action.gradient ? "linear(to-br, accent.600, accent.700)" : undefined,
-                bg: action.gradient ? undefined : "primary.600",
-                opacity: action.gradient ? 1 : 0.6,
+                bg: action.gradient ? undefined : "primary.600/60",
                 borderColor: action.gradient ? undefined : "primary.400"
               }}
               _focus={{ ring: 2, ringColor: "accent.400", ringOffset: 2, ringOffsetColor: "primary.900" }}
@@ -373,26 +365,12 @@ export default function Dashboard() {
                 justify="center"
                 mb={{ base: 2, sm: 3 }}
               >
-                <Icon
-                  viewBox="0 0 24 24"
+                <Box
+                  as={idx === 0 ? Clock : idx === 1 ? FileText : idx === 2 ? Users : Calendar}
                   w={{ base: 5, sm: 6 }}
                   h={{ base: 5, sm: 6 }}
                   color={action.gradient ? "white" : "whiteAlpha.700"}
-                >
-                  <path
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d={
-                      idx === 0 ? "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" :
-                      idx === 1 ? "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" :
-                      idx === 2 ? "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" :
-                      "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    }
-                  />
-                </Icon>
+                />
               </Flex>
               <Text color="white" fontWeight="semibold" fontSize={{ base: "sm", sm: "base" }}>
                 {action.label}
@@ -409,17 +387,328 @@ export default function Dashboard() {
   );
 }
 
+interface ConsultationFormData {
+  name: string;
+  email: string;
+  phone: string;
+  consultationType: string;
+  preferredDate: string;
+  message: string;
+}
+
+function ConsultationModal({ onClose }: { onClose: () => void }) {
+  const { register, handleSubmit, formState: { errors } } = useForm<ConsultationFormData>();
+  const [submitted, setSubmitted] = useState(false);
+
+  const consultationTypes = [
+    'Longevity Assessment',
+    'Supplement Protocol',
+    'Lifestyle Optimization',
+    'Biohacking Consultation',
+    'Follow-up Consultation'
+  ];
+
+  const onSubmit = (data: ConsultationFormData) => {
+    // Here you would typically send to an API
+    console.log('Consultation booking:', data);
+    setSubmitted(true);
+    setTimeout(() => {
+      onClose();
+    }, 2000);
+  };
+
+  return (
+    <Box
+      position="fixed"
+      inset={0}
+      zIndex={50}
+      bg="primary.900/95"
+      backdropFilter="blur(10px)"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      p={4}
+      onClick={onClose}
+    >
+      <Box
+        maxW="2xl"
+        w="full"
+        maxH="90vh"
+        overflowY="auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Box
+          bg="primary.600/50"
+          borderWidth="1px"
+          borderColor="primary.400"
+          borderRadius="2xl"
+          overflow="hidden"
+          boxShadow="2xl"
+        >
+          {!submitted ? (
+            <>
+              {/* Header */}
+              <Box
+                bgGradient="linear(to-br, accent.500/10, accent.600/10)"
+                borderBottomWidth="1px"
+                borderColor="accent.500/20"
+                p={{ base: 5, sm: 6 }}
+              >
+                <Heading as="h3" size={{ base: "lg", sm: "xl" }} color="white" mb={2}>
+                  Book a Consultation
+                </Heading>
+                <Text color="whiteAlpha.700" fontSize={{ base: "sm", sm: "base" }}>
+                  Schedule a personalized session with our longevity specialists
+                </Text>
+              </Box>
+
+              {/* Form */}
+              <Box as="form" onSubmit={handleSubmit(onSubmit)} p={{ base: 5, sm: 6 }}>
+                <Flex direction="column" gap={4}>
+                  {/* Name */}
+                  <Box>
+                    <Text color="white" fontSize="sm" fontWeight="medium" mb={2}>
+                      Full Name *
+                    </Text>
+                    <Input
+                      {...register('name', { required: 'Name is required' })}
+                      bg="primary.700/50"
+                      borderWidth="1px"
+                      borderColor="primary.400"
+                      borderRadius="lg"
+                      color="white"
+                      _focus={{
+                        borderColor: 'accent.500',
+                        ring: 2,
+                        ringColor: 'accent.400/50'
+                      }}
+                      _placeholder={{ color: 'whiteAlpha.400' }}
+                    />
+                    {errors.name && (
+                      <Text color="red.400" fontSize="xs" mt={1}>
+                        {errors.name.message}
+                      </Text>
+                    )}
+                  </Box>
+
+                  {/* Email */}
+                  <Box>
+                    <Text color="white" fontSize="sm" fontWeight="medium" mb={2}>
+                      Email *
+                    </Text>
+                    <Input
+                      type="email"
+                      {...register('email', {
+                        required: 'Email is required',
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          message: 'Invalid email address'
+                        }
+                      })}
+                      bg="primary.700/50"
+                      borderWidth="1px"
+                      borderColor="primary.400"
+                      borderRadius="lg"
+                      color="white"
+                      _focus={{
+                        borderColor: 'accent.500',
+                        ring: 2,
+                        ringColor: 'accent.400/50'
+                      }}
+                      _placeholder={{ color: 'whiteAlpha.400' }}
+                    />
+                    {errors.email && (
+                      <Text color="red.400" fontSize="xs" mt={1}>
+                        {errors.email.message}
+                      </Text>
+                    )}
+                  </Box>
+
+                  {/* Phone */}
+                  <Box>
+                    <Text color="white" fontSize="sm" fontWeight="medium" mb={2}>
+                      Phone Number
+                    </Text>
+                    <Input
+                      type="tel"
+                      {...register('phone')}
+                      bg="primary.700/50"
+                      borderWidth="1px"
+                      borderColor="primary.400"
+                      borderRadius="lg"
+                      color="white"
+                      _focus={{
+                        borderColor: 'accent.500',
+                        ring: 2,
+                        ringColor: 'accent.400/50'
+                      }}
+                      _placeholder={{ color: 'whiteAlpha.400' }}
+                    />
+                  </Box>
+
+                  {/* Consultation Type */}
+                  <Box>
+                    <Text color="white" fontSize="sm" fontWeight="medium" mb={2}>
+                      Consultation Type *
+                    </Text>
+                    <Box
+                      as="select"
+                      {...register('consultationType', { required: 'Please select a consultation type' })}
+                      w="full"
+                      px={4}
+                      py={3}
+                      bg="primary.700/50"
+                      borderWidth="1px"
+                      borderColor="primary.400"
+                      borderRadius="lg"
+                      color="white"
+                      fontSize="base"
+                      _focus={{
+                        borderColor: 'accent.500',
+                        outline: 'none',
+                        boxShadow: '0 0 0 2px rgba(239, 194, 179, 0.5)'
+                      }}
+                    >
+                      <option value="" style={{ background: '#1A365D' }}>Select a type...</option>
+                      {consultationTypes.map((type) => (
+                        <option key={type} value={type} style={{ background: '#1A365D' }}>
+                          {type}
+                        </option>
+                      ))}
+                    </Box>
+                    {errors.consultationType && (
+                      <Text color="red.400" fontSize="xs" mt={1}>
+                        {errors.consultationType.message}
+                      </Text>
+                    )}
+                  </Box>
+
+                  {/* Preferred Date */}
+                  <Box>
+                    <Text color="white" fontSize="sm" fontWeight="medium" mb={2}>
+                      Preferred Date *
+                    </Text>
+                    <Input
+                      type="date"
+                      {...register('preferredDate', { required: 'Please select a date' })}
+                      bg="primary.700/50"
+                      borderWidth="1px"
+                      borderColor="primary.400"
+                      borderRadius="lg"
+                      color="white"
+                      _focus={{
+                        borderColor: 'accent.500',
+                        ring: 2,
+                        ringColor: 'accent.400/50'
+                      }}
+                    />
+                    {errors.preferredDate && (
+                      <Text color="red.400" fontSize="xs" mt={1}>
+                        {errors.preferredDate.message}
+                      </Text>
+                    )}
+                  </Box>
+
+                  {/* Message */}
+                  <Box>
+                    <Text color="white" fontSize="sm" fontWeight="medium" mb={2}>
+                      Additional Information
+                    </Text>
+                    <Textarea
+                      {...register('message')}
+                      bg="primary.700/50"
+                      borderWidth="1px"
+                      borderColor="primary.400"
+                      borderRadius="lg"
+                      color="white"
+                      rows={4}
+                      _focus={{
+                        borderColor: 'accent.500',
+                        ring: 2,
+                        ringColor: 'accent.400/50'
+                      }}
+                      _placeholder={{ color: 'whiteAlpha.400' }}
+                    />
+                  </Box>
+                </Flex>
+
+                {/* Action Buttons */}
+                <Flex gap={3} mt={6}>
+                  <Button
+                    type="button"
+                    onClick={onClose}
+                    flex={1}
+                    py={3}
+                    bg="primary.700/50"
+                    borderWidth="1px"
+                    borderColor="primary.400"
+                    color="whiteAlpha.700"
+                    borderRadius="xl"
+                    fontWeight="semibold"
+                    _hover={{
+                      color: 'white',
+                      borderColor: 'primary.300',
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    flex={1}
+                    py={3}
+                    bgGradient="linear(to-br, accent.500, accent.600)"
+                    color="white"
+                    borderRadius="xl"
+                    fontWeight="semibold"
+                    boxShadow="lg"
+                    _hover={{
+                      bgGradient: 'linear(to-br, accent.600, accent.700)',
+                    }}
+                  >
+                    Book Consultation
+                  </Button>
+                </Flex>
+              </Box>
+            </>
+          ) : (
+            <Box p={{ base: 8, sm: 10 }} textAlign="center">
+              <Flex
+                w={16}
+                h={16}
+                bg="accent.500"
+                borderRadius="full"
+                align="center"
+                justify="center"
+                mx="auto"
+                mb={4}
+              >
+                <Box as={Check} w={8} h={8} color="white" />
+              </Flex>
+              <Heading as="h3" size="lg" color="white" mb={2}>
+                Booking Submitted!
+              </Heading>
+              <Text color="whiteAlpha.700" fontSize="base">
+                We&apos;ll contact you shortly to confirm your consultation
+              </Text>
+            </Box>
+          )}
+        </Box>
+      </Box>
+    </Box>
+  );
+}
+
 function getCategoryColorBg(category: string) {
   const colors: Record<string, string> = {
-    circadian: 'accent.500',
-    contrast: 'accent.400',
-    restoration: 'primary.400',
-    supplements: 'accent.500',
-    movement: 'accent.600',
+    circadian: 'accent.500/30',
+    contrast: 'accent.400/30',
+    restoration: 'primary.400/30',
+    supplements: 'accent.500/30',
+    movement: 'accent.600/30',
   };
   return colors[category] || 'whiteAlpha.200';
 }
 
 function getCategoryColorText(category: string) {
-  return 'accent.300';
+  return 'accent.200';
 }

@@ -26,14 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable}`}
-        style={{
-          fontFamily: 'var(--font-geist-sans)',
-          WebkitFontSmoothing: 'antialiased',
-          MozOsxFontSmoothing: 'grayscale'
-        }}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Providers>
           <ErrorBoundary>
             {children}

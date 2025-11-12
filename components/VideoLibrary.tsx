@@ -10,9 +10,9 @@ import {
   Text,
   Button,
   Grid,
-  Icon,
   Badge,
 } from '@chakra-ui/react';
+import { X, Play, Video } from 'lucide-react';
 
 // Define proper type for ReactPlayer
 type ReactPlayerProps = {
@@ -49,7 +49,7 @@ export default function VideoLibrary() {
       description: 'Learn the optimal way to get morning sunlight for circadian rhythm',
       duration: '8:32',
       category: 'circadian',
-      thumbnail: 'https://placehold.co/400x225/235B4E/EFC2B3?text=Morning+Light',
+      thumbnail: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=450&fit=crop&q=80',
       url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' // Replace with actual video
     },
     {
@@ -58,7 +58,7 @@ export default function VideoLibrary() {
       description: 'Step-by-step guide to hot/cold therapy at home',
       duration: '12:15',
       category: 'contrast',
-      thumbnail: 'https://placehold.co/400x225/235B4E/EFC2B3?text=Cold+Shower',
+      thumbnail: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&h=450&fit=crop&q=80',
       url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
     },
     {
@@ -67,7 +67,7 @@ export default function VideoLibrary() {
       description: 'Master the 4-4-4-4 breathing pattern for stress reduction',
       duration: '6:45',
       category: 'breathwork',
-      thumbnail: 'https://placehold.co/400x225/235B4E/EFC2B3?text=Breathwork',
+      thumbnail: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&h=450&fit=crop&q=80',
       url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
     },
     {
@@ -76,7 +76,7 @@ export default function VideoLibrary() {
       description: 'Optimize your bedroom for deep, restorative sleep',
       duration: '15:20',
       category: 'environment',
-      thumbnail: 'https://placehold.co/400x225/235B4E/EFC2B3?text=Sleep+Setup',
+      thumbnail: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&h=450&fit=crop&q=80',
       url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
     },
     {
@@ -85,7 +85,7 @@ export default function VideoLibrary() {
       description: 'When and how to take your longevity supplements',
       duration: '18:40',
       category: 'supplements',
-      thumbnail: 'https://placehold.co/400x225/235B4E/EFC2B3?text=Supplements',
+      thumbnail: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=800&h=450&fit=crop&q=80',
       url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
     },
     {
@@ -94,7 +94,7 @@ export default function VideoLibrary() {
       description: 'Ice baths and advanced techniques for experienced practitioners',
       duration: '22:10',
       category: 'advanced',
-      thumbnail: 'https://placehold.co/400x225/235B4E/EFC2B3?text=Ice+Bath',
+      thumbnail: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=450&fit=crop&q=80',
       url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
     },
   ];
@@ -113,8 +113,7 @@ export default function VideoLibrary() {
           position="fixed"
           inset={0}
           zIndex={50}
-          bg="primary.900"
-          opacity={0.95}
+          bg="primary.900/95"
           backdropFilter="blur(10px)"
           display="flex"
           alignItems="center"
@@ -123,8 +122,7 @@ export default function VideoLibrary() {
         >
           <Box maxW="5xl" w="full">
             <Box
-              bg="primary.600"
-              opacity={0.5}
+              bg="primary.600/50"
               borderWidth="1px"
               borderColor="primary.400"
               borderRadius="2xl"
@@ -144,8 +142,7 @@ export default function VideoLibrary() {
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
-                bg="primary.700"
-                opacity={0.8}
+                bg="primary.700/80"
                 backdropFilter="blur(4px)"
                 borderRadius="full"
                 color="whiteAlpha.700"
@@ -153,9 +150,7 @@ export default function VideoLibrary() {
                 transition="colors 0.3s"
                 _focus={{ ring: 2, ringColor: 'accent.400' }}
               >
-                <Icon viewBox="0 0 24 24" w={{ base: 6, sm: 7 }} h={{ base: 6, sm: 7 }} fill="none" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </Icon>
+                <Box as={X} w={{ base: 6, sm: 7 }} h={{ base: 6, sm: 7 }} />
               </Button>
 
               {/* Video Player */}
@@ -220,15 +215,13 @@ export default function VideoLibrary() {
               fontSize={{ base: 'sm', sm: 'base' }}
               whiteSpace="nowrap"
               transition="all 0.3s"
-              bg={activeCategory === category ? 'accent.500' : 'primary.600'}
-              opacity={activeCategory === category ? 0.2 : 0.5}
+              bg={activeCategory === category ? 'accent.500/20' : 'primary.600/50'}
               borderWidth="1px"
               borderColor={activeCategory === category ? 'accent.500' : 'primary.400'}
               color={activeCategory === category ? 'accent.300' : 'whiteAlpha.600'}
               boxShadow={activeCategory === category ? 'lg' : 'none'}
               _hover={{
-                bg: activeCategory === category ? 'accent.500' : 'primary.600',
-                opacity: activeCategory === category ? 0.2 : 0.7,
+                bg: activeCategory === category ? 'accent.500/30' : 'primary.600/70',
                 color: activeCategory === category ? 'accent.300' : 'whiteAlpha.800',
               }}
               _focus={{
@@ -251,8 +244,7 @@ export default function VideoLibrary() {
                 key={video.id}
                 onClick={() => setSelectedVideo(video)}
                 aria-label={`Play ${video.title}`}
-                bg="primary.600"
-                opacity={0.5}
+                bg="primary.600/50"
                 borderWidth="1px"
                 borderColor="primary.400"
                 borderRadius="xl"
@@ -263,8 +255,7 @@ export default function VideoLibrary() {
                 flexDir="column"
                 alignItems="stretch"
                 _hover={{
-                  bg: 'primary.600',
-                  opacity: 0.6,
+                  bg: 'primary.600/60',
                   borderColor: 'primary.400',
                   boxShadow: 'xl',
                 }}
@@ -304,8 +295,7 @@ export default function VideoLibrary() {
                     <Flex
                       w={{ base: 14, sm: 16 }}
                       h={{ base: 14, sm: 16 }}
-                      bg="accent.500"
-                      opacity={0.9}
+                      bg="accent.500/90"
                       borderRadius="full"
                       align="center"
                       justify="center"
@@ -313,17 +303,14 @@ export default function VideoLibrary() {
                       boxShadow="lg"
                       _groupHover={{ transform: 'scale(1.1)', bg: 'accent.500' }}
                     >
-                      <Icon
-                        viewBox="0 0 24 24"
+                      <Box
+                        as={Play}
                         w={{ base: 7, sm: 8 }}
                         h={{ base: 7, sm: 8 }}
                         color="white"
                         fill="currentColor"
                         ml={0.5}
-                        aria-hidden="true"
-                      >
-                        <path d="M8 5v14l11-7z" />
-                      </Icon>
+                      />
                     </Flex>
                   </Flex>
                 </Box>
@@ -364,9 +351,8 @@ export default function VideoLibrary() {
                       fontSize={{ base: 'xs', sm: 'sm' }}
                       px={2.5}
                       py={1}
-                      bg="accent.500"
-                      opacity={0.2}
-                      color="accent.300"
+                      bg="accent.500/30"
+                      color="accent.200"
                       borderRadius="full"
                       textTransform="capitalize"
                       fontWeight="medium"
@@ -383,29 +369,18 @@ export default function VideoLibrary() {
             <Flex
               w={{ base: 20, sm: 24 }}
               h={{ base: 20, sm: 24 }}
-              bg="primary.600"
-              opacity={0.3}
+              bg="primary.600/30"
               borderRadius="full"
               align="center"
               justify="center"
               mb={4}
             >
-              <Icon
-                viewBox="0 0 24 24"
+              <Box
+                as={Video}
                 w={{ base: 10, sm: 12 }}
                 h={{ base: 10, sm: 12 }}
                 color="whiteAlpha.400"
-                fill="none"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-                />
-              </Icon>
+              />
             </Flex>
             <Text color="whiteAlpha.600" textAlign="center" mb={2} fontSize={{ base: 'base', sm: 'lg' }}>
               No videos found

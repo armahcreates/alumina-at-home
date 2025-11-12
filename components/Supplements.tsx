@@ -9,9 +9,8 @@ import {
   Text,
   Button,
   Grid,
-  Icon,
-  Progress,
 } from '@chakra-ui/react';
+import { Sunrise, Clock, Moon, Lightbulb, Check } from 'lucide-react';
 
 export default function Supplements() {
   const [completedDoses, setCompletedDoses] = useState<string[]>([]);
@@ -56,10 +55,9 @@ export default function Supplements() {
         transition={{ duration: 0.4 }}
       >
         <Box
-          bgGradient="linear(to-br, accent.500, accent.600)"
-          opacity={0.1}
+          bg="accent.500/10"
           borderWidth="1px"
-          borderColor="accent.500"
+          borderColor="accent.500/50"
           borderRadius="2xl"
           p={{ base: 5, sm: 6, lg: 8 }}
         >
@@ -107,28 +105,17 @@ export default function Supplements() {
             <Flex
               w={{ base: 9, sm: 10 }}
               h={{ base: 9, sm: 10 }}
-              bg="accent.500"
-              opacity={0.2}
+              bg="accent.500/20"
               borderRadius="lg"
               align="center"
               justify="center"
             >
-              <Icon
-                viewBox="0 0 24 24"
+              <Box
+                as={Sunrise}
                 w={{ base: 5, sm: 6 }}
                 h={{ base: 5, sm: 6 }}
                 color="accent.400"
-                fill="none"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                />
-              </Icon>
+              />
             </Flex>
             <Heading as="h3" size={{ base: 'md', sm: 'lg' }} color="white">
               Morning (8:00 AM)
@@ -157,28 +144,17 @@ export default function Supplements() {
             <Flex
               w={{ base: 9, sm: 10 }}
               h={{ base: 9, sm: 10 }}
-              bg="accent.500"
-              opacity={0.2}
+              bg="accent.500/20"
               borderRadius="lg"
               align="center"
               justify="center"
             >
-              <Icon
-                viewBox="0 0 24 24"
+              <Box
+                as={Clock}
                 w={{ base: 5, sm: 6 }}
                 h={{ base: 5, sm: 6 }}
                 color="accent.400"
-                fill="none"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </Icon>
+              />
             </Flex>
             <Heading as="h3" size={{ base: 'md', sm: 'lg' }} color="white">
               Afternoon (12:00 PM)
@@ -207,28 +183,17 @@ export default function Supplements() {
             <Flex
               w={{ base: 9, sm: 10 }}
               h={{ base: 9, sm: 10 }}
-              bg="accent.500"
-              opacity={0.2}
+              bg="accent.500/20"
               borderRadius="lg"
               align="center"
               justify="center"
             >
-              <Icon
-                viewBox="0 0 24 24"
+              <Box
+                as={Moon}
                 w={{ base: 5, sm: 6 }}
                 h={{ base: 5, sm: 6 }}
                 color="accent.400"
-                fill="none"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                />
-              </Icon>
+              />
             </Flex>
             <Heading as="h3" size={{ base: 'md', sm: 'lg' }} color="white">
               Evening (7:00 PM)
@@ -257,28 +222,17 @@ export default function Supplements() {
             <Flex
               w={{ base: 9, sm: 10 }}
               h={{ base: 9, sm: 10 }}
-              bg="accent.500"
-              opacity={0.2}
+              bg="accent.500/20"
               borderRadius="lg"
               align="center"
               justify="center"
             >
-              <Icon
-                viewBox="0 0 24 24"
+              <Box
+                as={Lightbulb}
                 w={{ base: 5, sm: 6 }}
                 h={{ base: 5, sm: 6 }}
                 color="accent.400"
-                fill="none"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                />
-              </Icon>
+              />
             </Flex>
             <Heading as="h3" size={{ base: 'md', sm: 'lg' }} color="white">
               Bedtime (9:30 PM)
@@ -300,10 +254,9 @@ export default function Supplements() {
 
       {/* Protocol Info */}
       <Box
-        bgGradient="linear(to-br, accent.500, accent.600)"
-        opacity={0.1}
+        bg="accent.500/10"
         borderWidth="1px"
-        borderColor="accent.500"
+        borderColor="accent.500/50"
         borderRadius="2xl"
         p={{ base: 5, sm: 6, lg: 8 }}
       >
@@ -321,8 +274,7 @@ export default function Supplements() {
         <Grid templateColumns="repeat(2, 1fr)" gap={{ base: 3, sm: 4 }}>
           <Button
             aria-label="Learn more about protocol"
-            bg="accent.500"
-            opacity={0.2}
+            bg="accent.500/20"
             borderWidth="1px"
             borderColor="accent.500"
             color="accent.300"
@@ -331,8 +283,7 @@ export default function Supplements() {
             fontSize={{ base: 'sm', sm: 'base' }}
             fontWeight="semibold"
             _hover={{
-              bg: 'accent.500',
-              opacity: 0.3,
+              bg: 'accent.500/30',
             }}
             transition="all 0.3s"
             _focus={{
@@ -346,8 +297,7 @@ export default function Supplements() {
           </Button>
           <Button
             aria-label="Customize supplement stack"
-            bg="accent.500"
-            opacity={0.2}
+            bg="accent.500/20"
             borderWidth="1px"
             borderColor="accent.500"
             color="accent.300"
@@ -356,8 +306,7 @@ export default function Supplements() {
             fontSize={{ base: 'sm', sm: 'base' }}
             fontWeight="semibold"
             _hover={{
-              bg: 'accent.500',
-              opacity: 0.3,
+              bg: 'accent.500/30',
             }}
             transition="all 0.3s"
             _focus={{
@@ -401,14 +350,12 @@ function SupplementCard({
         borderRadius="xl"
         borderWidth="1px"
         transition="all 0.3s"
-        bg={completed ? 'accent.500' : 'primary.600'}
-        opacity={completed ? 0.1 : 0.5}
+        bg={completed ? 'accent.500/10' : 'primary.600/50'}
         borderColor={completed ? 'accent.500' : 'primary.400'}
         h="auto"
         _hover={{
           boxShadow: 'lg',
-          bg: completed ? 'accent.500' : 'primary.600',
-          opacity: completed ? 0.1 : 0.6,
+          bg: completed ? 'accent.500/10' : 'primary.600/60',
           borderColor: completed ? 'accent.500' : 'primary.400',
         }}
         _focus={{
@@ -435,17 +382,12 @@ function SupplementCard({
             }}
           >
             {completed && (
-              <Icon
-                viewBox="0 0 24 24"
+              <Box
+                as={Check}
                 w={{ base: 4, sm: 5 }}
                 h={{ base: 4, sm: 5 }}
                 color="white"
-                fill="none"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-              </Icon>
+              />
             )}
           </Flex>
           <Box flex={1} textAlign="left" minW={0}>

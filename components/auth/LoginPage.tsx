@@ -56,7 +56,7 @@ export default function LoginPage() {
           >
             ALUMINA
           </Heading>
-          <Text color="accent.200" opacity={0.6} fontSize="lg">
+          <Text color="accent.200/60" fontSize="lg">
             At Home
           </Text>
           <Text color="whiteAlpha.600" fontSize="md" mt={{ base: 4, sm: 5 }}>
@@ -66,8 +66,7 @@ export default function LoginPage() {
 
         {/* Form */}
         <Box
-          bg="primary.600"
-          opacity={0.5}
+          bg="primary.600/50"
           borderWidth="1px"
           borderColor="primary.400"
           borderRadius="2xl"
@@ -94,8 +93,7 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   px={4}
                   py={3.5}
-                  bg="primary.700"
-                  opacity={0.5}
+                  bg="primary.700/50"
                   borderWidth="1px"
                   borderColor="primary.400"
                   borderRadius="xl"
@@ -123,8 +121,7 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   px={4}
                   py={3.5}
-                  bg="primary.700"
-                  opacity={0.5}
+                  bg="primary.700/50"
                   borderWidth="1px"
                   borderColor="primary.400"
                   borderRadius="xl"
@@ -174,7 +171,7 @@ export default function LoginPage() {
           </Box>
 
           {/* Social Login */}
-          <Box mt={5} pt={5} borderTopWidth="1px" borderColor="primary.400" opacity={0.3}>
+          <Box mt={5} pt={5} borderTopWidth="1px" borderColor="primary.400/30">
             <Text color="whiteAlpha.400" fontSize="xs" textAlign="center" mb={3}>
               Or continue with
             </Text>
@@ -182,14 +179,13 @@ export default function LoginPage() {
               <Button
                 px={4}
                 py={3}
-                bg="primary.700"
-                opacity={0.5}
+                bg="primary.700/50"
                 borderWidth="1px"
                 borderColor="primary.400"
                 borderRadius="xl"
                 color="whiteAlpha.700"
                 fontSize="sm"
-                _active={{ bg: "primary.700" }}
+                _active={{ bg: "primary.700/60" }}
                 minH="48px"
               >
                 Google
@@ -197,14 +193,13 @@ export default function LoginPage() {
               <Button
                 px={4}
                 py={3}
-                bg="primary.700"
-                opacity={0.5}
+                bg="primary.700/50"
                 borderWidth="1px"
                 borderColor="primary.400"
                 borderRadius="xl"
                 color="whiteAlpha.700"
                 fontSize="sm"
-                _active={{ bg: "primary.700" }}
+                _active={{ bg: "primary.700/60" }}
                 minH="48px"
               >
                 Apple

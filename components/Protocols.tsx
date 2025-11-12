@@ -9,9 +9,9 @@ import {
   Text,
   Button,
   Grid,
-  Icon,
   Badge,
 } from '@chakra-ui/react';
+import { Sunrise, Zap, Smile, Activity, Moon, Globe, Check, FileText, ChevronDown } from 'lucide-react';
 
 export default function Protocols() {
   const [selectedProtocol, setSelectedProtocol] = useState<string | null>(null);
@@ -23,6 +23,7 @@ export default function Protocols() {
       title: 'Morning Awakening Ritual',
       duration: '45-60 min',
       category: 'Foundation',
+      icon: Sunrise,
       description: 'Start your day with optimal circadian alignment and metabolic activation',
       steps: [
         'Wake naturally or with sunrise alarm (6:00-7:00 AM)',
@@ -38,6 +39,7 @@ export default function Protocols() {
       title: 'Contrast Therapy',
       duration: '10-15 min',
       category: 'Advanced',
+      icon: Zap,
       description: 'Hot/cold exposure for cardiovascular health and longevity',
       steps: [
         'Hot shower or sauna (3-5 min)',
@@ -53,6 +55,7 @@ export default function Protocols() {
       title: 'Breathwork Practice',
       duration: '10-20 min',
       category: 'Foundation',
+      icon: Smile,
       description: 'Evidence-based breathing techniques for stress reduction and vitality',
       steps: [
         'Find quiet, comfortable space',
@@ -68,6 +71,7 @@ export default function Protocols() {
       title: 'Daily Movement',
       duration: '20-30 min',
       category: 'Foundation',
+      icon: Activity,
       description: 'Functional movement for longevity and metabolic health',
       steps: [
         'Dynamic warmup (5 min)',
@@ -83,6 +87,7 @@ export default function Protocols() {
       title: 'Evening Wind-Down',
       duration: '30-45 min',
       category: 'Foundation',
+      icon: Moon,
       description: 'Prepare your body for restorative sleep',
       steps: [
         'Dim lights 2 hours before bed',
@@ -99,6 +104,7 @@ export default function Protocols() {
       title: 'Grounding Practice',
       duration: '15-20 min',
       category: 'Intermediate',
+      icon: Globe,
       description: 'Connect with earth energy for inflammation reduction',
       steps: [
         'Find natural outdoor space',
@@ -139,15 +145,13 @@ export default function Protocols() {
             fontSize={{ base: 'sm', sm: 'base' }}
             whiteSpace="nowrap"
             transition="all 0.3s"
-            bg={activeCategory === category ? 'accent.500' : 'primary.600'}
-            opacity={activeCategory === category ? 0.2 : 0.5}
+            bg={activeCategory === category ? 'accent.500/20' : 'primary.600/50'}
             borderWidth="1px"
             borderColor={activeCategory === category ? 'accent.500' : 'primary.400'}
             color={activeCategory === category ? 'accent.300' : 'whiteAlpha.600'}
             boxShadow={activeCategory === category ? 'lg' : 'none'}
             _hover={{
-              bg: activeCategory === category ? 'accent.500' : 'primary.600',
-              opacity: activeCategory === category ? 0.2 : 0.7,
+              bg: activeCategory === category ? 'accent.500/30' : 'primary.600/70',
               color: activeCategory === category ? 'accent.300' : 'whiteAlpha.800',
             }}
             _focus={{
@@ -173,13 +177,12 @@ export default function Protocols() {
               transition={{ delay: index * 0.05, duration: 0.3 }}
             >
               <Box
-                bg="primary.600"
-                opacity={0.5}
+                bg="primary.600/50"
                 borderWidth="1px"
                 borderColor="primary.400"
                 borderRadius="2xl"
                 overflow="hidden"
-                _hover={{ borderColor: 'primary.400', opacity: 0.5 }}
+                _hover={{ borderColor: 'primary.400' }}
                 transition="all 0.3s"
               >
                 <Button
@@ -190,7 +193,7 @@ export default function Protocols() {
                   p={{ base: 4, sm: 5 }}
                   textAlign="left"
                   bg="transparent"
-                  _hover={{ bg: 'primary.600', opacity: 0.3 }}
+                  _hover={{ bg: 'primary.600/30' }}
                   transition="all 0.3s"
                   _focus={{
                     ring: 2,
@@ -200,44 +203,51 @@ export default function Protocols() {
                   h="auto"
                 >
                   <Flex align="flex-start" justify="space-between" mb={2} w="full">
-                    <Box flex={1} pr={4}>
-                      <Flex align="center" gap={2} mb={1.5} flexWrap="wrap">
-                        <Heading as="h3" size={{ base: 'sm', sm: 'md' }} color="white">
-                          {protocol.title}
-                        </Heading>
+                    <Flex align="flex-start" gap={3} flex={1} pr={4}>
+                      <Flex
+                        w={{ base: 10, sm: 12 }}
+                        h={{ base: 10, sm: 12 }}
+                        bg="accent.500/20"
+                        borderRadius="lg"
+                        align="center"
+                        justify="center"
+                        flexShrink={0}
+                      >
+                        <Box as={protocol.icon} w={{ base: 5, sm: 6 }} h={{ base: 5, sm: 6 }} color="accent.400" />
+                      </Flex>
+                      <Box flex={1}>
+                        <Flex align="center" gap={2} mb={1.5} flexWrap="wrap">
+                          <Heading as="h3" size={{ base: 'sm', sm: 'md' }} color="white">
+                            {protocol.title}
+                          </Heading>
                         <Badge
                           px={2}
                           py={0.5}
-                          bg="accent.500"
-                          opacity={0.2}
-                          color="accent.300"
+                          bg="accent.500/30"
+                          color="accent.200"
                           borderRadius="md"
                           fontSize={{ base: 'xs', sm: 'sm' }}
                         >
                           {protocol.category}
                         </Badge>
                       </Flex>
-                      <Text color="whiteAlpha.600" fontSize={{ base: 'sm', sm: 'base' }} mb={2}>
-                        {protocol.description}
-                      </Text>
-                      <Text color="whiteAlpha.400" fontSize={{ base: 'xs', sm: 'sm' }}>
-                        Duration: {protocol.duration}
-                      </Text>
-                    </Box>
-                    <Icon
-                      viewBox="0 0 24 24"
+                        <Text color="whiteAlpha.600" fontSize={{ base: 'sm', sm: 'base' }} mb={2}>
+                          {protocol.description}
+                        </Text>
+                        <Text color="whiteAlpha.400" fontSize={{ base: 'xs', sm: 'sm' }}>
+                          Duration: {protocol.duration}
+                        </Text>
+                      </Box>
+                    </Flex>
+                    <Box
+                      as={ChevronDown}
                       w={{ base: 5, sm: 6 }}
                       h={{ base: 5, sm: 6 }}
                       color="whiteAlpha.400"
                       transition="transform 0.3s"
                       transform={selectedProtocol === protocol.id ? 'rotate(180deg)' : undefined}
                       flexShrink={0}
-                      fill="none"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </Icon>
+                    />
                   </Flex>
                 </Button>
 
@@ -254,8 +264,7 @@ export default function Protocols() {
                       px={{ base: 4, sm: 5 }}
                       pb={{ base: 4, sm: 5 }}
                       borderTop="1px solid"
-                      borderColor="primary.400"
-                      opacity={0.3}
+                      borderColor="primary.400/30"
                       pt={{ base: 4, sm: 5 }}
                     >
                       {/* Steps */}
@@ -270,8 +279,7 @@ export default function Protocols() {
                                 w={{ base: 6, sm: 7 }}
                                 h={{ base: 6, sm: 7 }}
                                 borderRadius="full"
-                                bg="accent.500"
-                                opacity={0.2}
+                                bg="accent.500/20"
                                 align="center"
                                 justify="center"
                                 flexShrink={0}
@@ -296,18 +304,13 @@ export default function Protocols() {
                         <Grid templateColumns={{ base: '1fr', sm: 'repeat(2, 1fr)' }} gap={{ base: 2, sm: 3 }}>
                           {protocol.benefits.map((benefit, index) => (
                             <Flex key={index} align="center" gap={2}>
-                              <Icon
-                                viewBox="0 0 24 24"
+                              <Box
+                                as={Check}
                                 w={{ base: 4, sm: 5 }}
                                 h={{ base: 4, sm: 5 }}
                                 color="accent.400"
                                 flexShrink={0}
-                                fill="none"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                              >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                              </Icon>
+                              />
                               <Text color="whiteAlpha.700" fontSize={{ base: 'sm', sm: 'base' }}>
                                 {benefit}
                               </Text>
@@ -352,29 +355,18 @@ export default function Protocols() {
           <Flex
             w={{ base: 20, sm: 24 }}
             h={{ base: 20, sm: 24 }}
-            bg="primary.600"
-            opacity={0.3}
+            bg="primary.600/30"
             borderRadius="full"
             align="center"
             justify="center"
             mb={4}
           >
-            <Icon
-              viewBox="0 0 24 24"
+            <Box
+              as={FileText}
               w={{ base: 10, sm: 12 }}
               h={{ base: 10, sm: 12 }}
               color="whiteAlpha.400"
-              fill="none"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-              />
-            </Icon>
+            />
           </Flex>
           <Text color="whiteAlpha.600" textAlign="center" mb={2} fontSize={{ base: 'base', sm: 'lg' }}>
             No protocols found
@@ -387,10 +379,9 @@ export default function Protocols() {
 
       {/* Custom Protocol CTA */}
       <Box
-        bgGradient="linear(to-br, accent.500, accent.600)"
-        opacity={0.1}
+        bg="accent.500/10"
         borderWidth="1px"
-        borderColor="accent.500"
+        borderColor="accent.500/50"
         borderRadius="2xl"
         p={{ base: 5, sm: 6, lg: 8 }}
         textAlign="center"
@@ -411,8 +402,7 @@ export default function Protocols() {
           aria-label="Schedule consultation with specialist"
           px={{ base: 6, sm: 8 }}
           py={{ base: 2.5, sm: 3 }}
-          bg="accent.500"
-          opacity={0.2}
+          bg="accent.500/20"
           borderWidth="1px"
           borderColor="accent.500"
           color="accent.300"
@@ -420,8 +410,7 @@ export default function Protocols() {
           fontSize={{ base: 'sm', sm: 'base' }}
           fontWeight="semibold"
           _hover={{
-            bg: 'accent.500',
-            opacity: 0.3,
+            bg: 'accent.500/30',
           }}
           transition="all 0.3s"
           _focus={{

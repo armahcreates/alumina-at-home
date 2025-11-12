@@ -8,10 +8,10 @@ import {
   Text,
   Button,
   Grid,
-  Icon,
   Badge,
   Link,
 } from '@chakra-ui/react';
+import { Check, ArrowRight } from 'lucide-react';
 
 interface EquipmentItem {
   id: string;
@@ -136,13 +136,11 @@ export default function EquipmentGuide() {
             h="auto"
             flexDir="column"
             alignItems="flex-start"
-            bg={activeTier === tier ? 'accent.500' : 'primary.600'}
-            opacity={activeTier === tier ? 0.2 : 0.5}
+            bg={activeTier === tier ? 'accent.500/20' : 'primary.600/50'}
             borderColor={activeTier === tier ? 'accent.500' : 'primary.400'}
             boxShadow={activeTier === tier ? 'lg' : 'none'}
             _hover={{
-              bg: activeTier === tier ? 'accent.500' : 'primary.600',
-              opacity: activeTier === tier ? 0.2 : 0.6,
+              bg: activeTier === tier ? 'accent.500/30' : 'primary.600/60',
             }}
             _focus={{
               ring: 2,
@@ -167,8 +165,7 @@ export default function EquipmentGuide() {
 
       {/* Tier Description */}
       <Box
-        bg="primary.600"
-        opacity={0.3}
+        bg="primary.600/30"
         borderWidth="1px"
         borderColor="primary.400"
         borderRadius="xl"
@@ -184,13 +181,12 @@ export default function EquipmentGuide() {
         {filteredEquipment.map((item) => (
           <Box
             key={item.id}
-            bg="primary.600"
-            opacity={0.5}
+            bg="primary.600/50"
             borderWidth="1px"
             borderColor="primary.400"
             borderRadius="xl"
             p={{ base: 4, sm: 5 }}
-            _hover={{ bg: 'primary.600', opacity: 0.6, borderColor: 'primary.400' }}
+            _hover={{ bg: 'primary.600/60', borderColor: 'primary.400' }}
             transition="all 0.3s"
           >
             <Flex
@@ -208,8 +204,7 @@ export default function EquipmentGuide() {
                   <Badge
                     px={2}
                     py={0.5}
-                    bg="accent.500"
-                    opacity={0.2}
+                    bg="accent.500/20"
                     color="accent.300"
                     borderRadius="md"
                     fontSize={{ base: 'xs', sm: 'sm' }}
@@ -235,14 +230,12 @@ export default function EquipmentGuide() {
                 fontSize={{ base: 'sm', sm: 'base' }}
                 fontWeight="semibold"
                 transition="all 0.3s"
-                bg={ownedItems.includes(item.id) ? 'accent.500' : 'primary.700'}
-                opacity={ownedItems.includes(item.id) ? 0.2 : 0.5}
+                bg={ownedItems.includes(item.id) ? 'accent.500/20' : 'primary.700/50'}
                 borderWidth="1px"
                 borderColor={ownedItems.includes(item.id) ? 'accent.500' : 'primary.400'}
                 color={ownedItems.includes(item.id) ? 'accent.300' : 'whiteAlpha.600'}
                 _hover={{
-                  bg: ownedItems.includes(item.id) ? 'accent.500' : 'primary.700',
-                  opacity: ownedItems.includes(item.id) ? 0.2 : 0.7,
+                  bg: ownedItems.includes(item.id) ? 'accent.500/30' : 'primary.700/70',
                 }}
                 _focus={{
                   ring: 2,
@@ -263,18 +256,13 @@ export default function EquipmentGuide() {
               <Grid templateColumns={{ base: '1fr', sm: 'repeat(2, 1fr)' }} gap={{ base: 2, sm: 2.5 }}>
                 {item.benefits.map((benefit, index) => (
                   <Flex key={index} align="center" gap={2}>
-                    <Icon
-                      viewBox="0 0 24 24"
+                    <Box
+                      as={Check}
                       w={{ base: 4, sm: 4.5 }}
                       h={{ base: 4, sm: 4.5 }}
                       color="accent.400"
                       flexShrink={0}
-                      fill="none"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </Icon>
+                    />
                     <Text color="whiteAlpha.700" fontSize={{ base: 'sm', sm: 'base' }}>
                       {benefit}
                     </Text>
@@ -312,16 +300,11 @@ export default function EquipmentGuide() {
               }}
             >
               <Text>View Product</Text>
-              <Icon
-                viewBox="0 0 24 24"
+              <Box
+                as={ArrowRight}
                 w={{ base: 4, sm: 5 }}
                 h={{ base: 4, sm: 5 }}
-                fill="none"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </Icon>
+              />
             </Link>
           </Box>
         ))}
@@ -329,10 +312,9 @@ export default function EquipmentGuide() {
 
       {/* Investment Summary */}
       <Box
-        bgGradient="linear(to-br, accent.500, accent.600)"
-        opacity={0.1}
+        bgGradient="linear(to-br, accent.500/10, accent.600/10)"
         borderWidth="1px"
-        borderColor="accent.500"
+        borderColor="accent.500/20"
         borderRadius="2xl"
         p={{ base: 5, sm: 6, lg: 8 }}
       >

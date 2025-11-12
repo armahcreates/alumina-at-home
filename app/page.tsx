@@ -115,7 +115,6 @@ export default function Home() {
             flexDir="column"
             flexGrow={1}
             bg="primary.800"
-            opacity={0.5}
             backdropFilter="blur(10px)"
             borderRight="1px solid"
             borderColor="accent.500"
@@ -139,8 +138,8 @@ export default function Home() {
             </Flex>
 
             {/* User Profile Card */}
-            <Box px={4} py={4} borderBottom="1px solid" borderColor="accent.500" opacity={0.1}>
-              <Flex align="center" gap={3} p={3} bg="primary.700" opacity={0.5} borderRadius="xl">
+            <Box px={4} py={4} borderBottom="1px solid" borderColor="accent.500/20">
+              <Flex align="center" gap={3} p={3} bg="primary.700/50" borderRadius="xl">
                 <Flex
                   w={12}
                   h={12}
@@ -165,7 +164,7 @@ export default function Home() {
             </Box>
 
             {/* Stats */}
-            <Box px={4} py={4} borderBottom="1px solid" borderColor="accent.500" opacity={0.1}>
+            <Box px={4} py={4} borderBottom="1px solid" borderColor="accent.500/20">
               <Grid templateColumns="repeat(2, 1fr)" gap={3}>
                 <Button
                   onClick={() => setShowAchievements(true)}
@@ -173,11 +172,10 @@ export default function Home() {
                   flexDir="column"
                   gap={1.5}
                   p={3}
-                  bg="accent.500"
-                  opacity={0.1}
+                  bg="accent.500/10"
                   borderRadius="xl"
                   h="auto"
-                  _hover={{ bg: 'accent.500', opacity: 0.15 }}
+                  _hover={{ bg: 'accent.500/20' }}
                   transition="all 0.3s"
                   _focus={{ ring: 2, ringColor: 'accent.400', ringOffset: 2, ringOffsetColor: 'primary.900' }}
                 >
@@ -193,11 +191,10 @@ export default function Home() {
                   flexDir="column"
                   gap={1.5}
                   p={3}
-                  bg="accent.500"
-                  opacity={0.1}
+                  bg="accent.500/10"
                   borderRadius="xl"
                   h="auto"
-                  _hover={{ bg: 'accent.500', opacity: 0.15 }}
+                  _hover={{ bg: 'accent.500/20' }}
                   transition="all 0.3s"
                   _focus={{ ring: 2, ringColor: 'accent.400', ringOffset: 2, ringOffsetColor: 'primary.900' }}
                 >
@@ -225,13 +222,11 @@ export default function Home() {
                   py={3}
                   borderRadius="xl"
                   transition="all 0.3s"
-                  bg={activeTab === item.id ? 'accent.500' : 'transparent'}
-                  opacity={activeTab === item.id ? 0.2 : 1}
+                  bg={activeTab === item.id ? 'accent.500/20' : 'transparent'}
                   color={activeTab === item.id ? 'accent.300' : 'whiteAlpha.700'}
                   boxShadow={activeTab === item.id ? 'lg' : 'none'}
                   _hover={{
-                    bg: activeTab === item.id ? 'accent.500' : 'primary.700',
-                    opacity: activeTab === item.id ? 0.2 : 0.5,
+                    bg: activeTab === item.id ? 'accent.500/30' : 'primary.700/50',
                     color: activeTab === item.id ? 'accent.300' : 'white',
                   }}
                   _focus={{ ring: 2, ringColor: 'accent.400', ringOffset: 2, ringOffsetColor: 'primary.900' }}
@@ -245,7 +240,7 @@ export default function Home() {
             </Box>
 
             {/* Achievements Button */}
-            <Box px={4} py={4} borderTop="1px solid" borderColor="accent.500" opacity={0.1}>
+            <Box px={4} py={4} borderTop="1px solid" borderColor="accent.500/20">
               <Button
                 onClick={() => setShowAchievements(true)}
                 aria-label="View all achievements"
@@ -276,8 +271,7 @@ export default function Home() {
             <Box
               position="fixed"
               inset={0}
-              bg="primary.900"
-              opacity={0.95}
+              bg="primary.900/95"
               backdropFilter="blur(4px)"
               zIndex={40}
               display={{ base: 'block', lg: 'none' }}
@@ -291,7 +285,6 @@ export default function Home() {
               left={0}
               w="72"
               bg="primary.800"
-              opacity={0.95}
               backdropFilter="blur(10px)"
               borderRight="1px solid"
               borderColor="accent.500"
@@ -301,7 +294,7 @@ export default function Home() {
             >
               <Flex flexDir="column" h="full">
                 {/* Close Button & Logo */}
-                <Flex align="center" justify="space-between" px={6} py={5} borderBottom="1px solid" borderColor="accent.500" opacity={0.2}>
+                <Flex align="center" justify="space-between" px={6} py={5} borderBottom="1px solid" borderColor="accent.500/20">
                   <Flex flexDir="column" align="center" flex={1}>
                     <Image src="/alumina-isotipo.webp" alt="Alumina" width={64} height={80} />
                     <Text fontSize="xs" color="accent.200" opacity={0.6} lineHeight="tight" mt={2}>
@@ -327,8 +320,8 @@ export default function Home() {
                 </Flex>
 
                 {/* User Profile Card - Mobile */}
-                <Box px={4} py={4} borderBottom="1px solid" borderColor="accent.500" opacity={0.1}>
-                  <Flex align="center" gap={3} p={3} bg="primary.700" opacity={0.5} borderRadius="xl">
+                <Box px={4} py={4} borderBottom="1px solid" borderColor="accent.500/20">
+                  <Flex align="center" gap={3} p={3} bg="primary.700/50" borderRadius="xl">
                     <Flex
                       w={12}
                       h={12}
@@ -353,7 +346,7 @@ export default function Home() {
                 </Box>
 
                 {/* Stats - Mobile */}
-                <Box px={4} py={4} borderBottom="1px solid" borderColor="accent.500" opacity={0.1}>
+                <Box px={4} py={4} borderBottom="1px solid" borderColor="accent.500/20">
                   <Grid templateColumns="repeat(2, 1fr)" gap={3}>
                     <Button
                       onClick={() => {
@@ -364,11 +357,10 @@ export default function Home() {
                       flexDir="column"
                       gap={1.5}
                       p={3}
-                      bg="accent.500"
-                      opacity={0.1}
+                      bg="accent.500/10"
                       borderRadius="xl"
                       h="auto"
-                      _active={{ bg: 'accent.500', opacity: 0.15 }}
+                      _active={{ bg: 'accent.500/20' }}
                       transition="all 0.3s"
                     >
                       <Icon viewBox="0 0 24 24" w={6} h={6} color="accent.400" fill="currentColor" aria-hidden="true">
@@ -386,11 +378,10 @@ export default function Home() {
                       flexDir="column"
                       gap={1.5}
                       p={3}
-                      bg="accent.500"
-                      opacity={0.1}
+                      bg="accent.500/10"
                       borderRadius="xl"
                       h="auto"
-                      _active={{ bg: 'accent.500', opacity: 0.15 }}
+                      _active={{ bg: 'accent.500/20' }}
                       transition="all 0.3s"
                     >
                       <Icon viewBox="0 0 24 24" w={6} h={6} color="accent.400" fill="currentColor" aria-hidden="true">
@@ -419,12 +410,10 @@ export default function Home() {
                       py={3}
                       borderRadius="xl"
                       transition="all 0.3s"
-                      bg={activeTab === item.id ? 'accent.500' : 'transparent'}
-                      opacity={activeTab === item.id ? 0.2 : 1}
+                      bg={activeTab === item.id ? 'accent.500/20' : 'transparent'}
                       color={activeTab === item.id ? 'accent.300' : 'whiteAlpha.700'}
                       _active={{
-                        bg: activeTab === item.id ? 'accent.500' : 'primary.700',
-                        opacity: activeTab === item.id ? 0.2 : 0.5,
+                        bg: activeTab === item.id ? 'accent.500/30' : 'primary.700/50',
                       }}
                     >
                       <Icon viewBox="0 0 24 24" w={5} h={5} flexShrink={0} fill="none" stroke="currentColor" aria-hidden="true">
@@ -436,7 +425,7 @@ export default function Home() {
                 </Box>
 
                 {/* Achievements Button - Mobile */}
-                <Box px={4} py={4} borderTop="1px solid" borderColor="accent.500" opacity={0.1}>
+                <Box px={4} py={4} borderTop="1px solid" borderColor="accent.500/20">
                   <Button
                     onClick={() => {
                       setShowAchievements(true);
@@ -473,11 +462,10 @@ export default function Home() {
             position="sticky"
             top={0}
             zIndex={30}
-            bg="primary.700"
-            opacity={0.8}
+            bg="primary.700/80"
             backdropFilter="blur(10px)"
             borderBottom="1px solid"
-            borderColor="accent.500"
+            borderColor="accent.500/20"
             display={{ base: 'block', lg: 'none' }}
           >
             <Box px={4} py={3}>
@@ -513,10 +501,9 @@ export default function Home() {
                   aria-label="View achievements"
                   w={11}
                   h={11}
-                  bg="accent.500"
-                  opacity={0.1}
+                  bg="accent.500/10"
                   borderRadius="lg"
-                  _active={{ bg: 'accent.500', opacity: 0.2 }}
+                  _active={{ bg: 'accent.500/20' }}
                   transition="all 0.3s"
                   _focus={{ ring: 2, ringColor: 'accent.400' }}
                 >
@@ -535,11 +522,10 @@ export default function Home() {
             position="sticky"
             top={0}
             zIndex={30}
-            bg="primary.700"
-            opacity={0.8}
+            bg="primary.700/80"
             backdropFilter="blur(10px)"
             borderBottom="1px solid"
-            borderColor="accent.500"
+            borderColor="accent.500/20"
           >
             <Box maxW="7xl" mx="auto" px={{ base: 4, sm: 6, lg: 8 }} py={4}>
               <Flex align="center" justify="space-between">
@@ -565,10 +551,9 @@ export default function Home() {
                     aria-label="View streak and points"
                     px={4}
                     py={2}
-                    bg="accent.500"
-                    opacity={0.1}
+                    bg="accent.500/10"
                     borderRadius="xl"
-                    _hover={{ bg: 'accent.500', opacity: 0.15 }}
+                    _hover={{ bg: 'accent.500/20' }}
                     transition="all 0.3s"
                     _focus={{ ring: 2, ringColor: 'accent.400' }}
                   >
@@ -606,11 +591,10 @@ export default function Home() {
           bottom={0}
           left={0}
           right={0}
-          bg="primary.700"
-          opacity={0.95}
+          bg="primary.700/95"
           backdropFilter="blur(10px)"
           borderTop="1px solid"
-          borderColor="accent.500"
+          borderColor="accent.500/20"
           display={{ base: 'block', lg: 'none' }}
           role="navigation"
           aria-label="Mobile navigation"
@@ -628,8 +612,7 @@ export default function Home() {
               px={3}
               borderRadius="lg"
               transition="all 0.3s"
-              bg={activeTab === 'dashboard' ? 'accent.500' : 'transparent'}
-              opacity={activeTab === 'dashboard' ? 0.2 : 1}
+              bg={activeTab === 'dashboard' ? 'accent.500/20' : 'transparent'}
               color={activeTab === 'dashboard' ? 'accent.400' : 'whiteAlpha.400'}
               _active={{ color: activeTab === 'dashboard' ? 'accent.400' : 'whiteAlpha.600' }}
               _focus={{ ring: 2, ringColor: 'accent.400' }}
@@ -652,8 +635,7 @@ export default function Home() {
               px={3}
               borderRadius="lg"
               transition="all 0.3s"
-              bg={activeTab === 'protocols' ? 'accent.500' : 'transparent'}
-              opacity={activeTab === 'protocols' ? 0.2 : 1}
+              bg={activeTab === 'protocols' ? 'accent.500/20' : 'transparent'}
               color={activeTab === 'protocols' ? 'accent.400' : 'whiteAlpha.400'}
               _active={{ color: activeTab === 'protocols' ? 'accent.400' : 'whiteAlpha.600' }}
               _focus={{ ring: 2, ringColor: 'accent.400' }}
@@ -676,8 +658,7 @@ export default function Home() {
               px={3}
               borderRadius="lg"
               transition="all 0.3s"
-              bg={activeTab === 'supplements' ? 'accent.500' : 'transparent'}
-              opacity={activeTab === 'supplements' ? 0.2 : 1}
+              bg={activeTab === 'supplements' ? 'accent.500/20' : 'transparent'}
               color={activeTab === 'supplements' ? 'accent.400' : 'whiteAlpha.400'}
               _active={{ color: activeTab === 'supplements' ? 'accent.400' : 'whiteAlpha.600' }}
               _focus={{ ring: 2, ringColor: 'accent.400' }}
@@ -700,8 +681,7 @@ export default function Home() {
               px={3}
               borderRadius="lg"
               transition="all 0.3s"
-              bg={activeTab === 'progress' ? 'accent.500' : 'transparent'}
-              opacity={activeTab === 'progress' ? 0.2 : 1}
+              bg={activeTab === 'progress' ? 'accent.500/20' : 'transparent'}
               color={activeTab === 'progress' ? 'accent.400' : 'whiteAlpha.400'}
               _active={{ color: activeTab === 'progress' ? 'accent.400' : 'whiteAlpha.600' }}
               _focus={{ ring: 2, ringColor: 'accent.400' }}

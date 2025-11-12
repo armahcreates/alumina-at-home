@@ -7,7 +7,15 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'placehold.co',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
     ],
+  },
+  transpilePackages: ['@chakra-ui/react'],
+  experimental: {
+    optimizePackageImports: ['@chakra-ui/react'],
   },
 };
 

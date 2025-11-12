@@ -6,9 +6,9 @@ import {
   Text,
   Flex,
   Grid,
-  Icon,
   Button,
 } from '@chakra-ui/react';
+import { Flame, TrendingUp, TrendingDown, Download } from 'lucide-react';
 
 export default function Progress() {
   const metrics = [
@@ -43,22 +43,12 @@ export default function Progress() {
 
       {/* Streak Card */}
       <Box
-        bgGradient="linear(to-br, accent.500, accent.600)"
-        opacity={0.2}
+        bg="accent.500/10"
         position="relative"
         border="1px solid"
-        borderColor="accent.500"
+        borderColor="accent.500/50"
         borderRadius="2xl"
         p={5}
-        _before={{
-          content: '""',
-          position: 'absolute',
-          inset: 0,
-          bgGradient: 'linear(to-br, accent.500, accent.600)',
-          opacity: 0.2,
-          borderRadius: '2xl',
-          zIndex: -1,
-        }}
       >
         <Flex justify="space-between" align="center">
           <Box>
@@ -73,12 +63,10 @@ export default function Progress() {
             </Text>
           </Box>
           <Box>
-            <Icon viewBox="0 0 24 24" w={16} h={16} color="accent.400" fill="currentColor">
-              <path d="M12 2c1.5 1.5 3 3.5 3 5.5 0 2.5-1.5 4.5-3 4.5s-3-2-3-4.5c0-2 1.5-4 3-5.5zm0 18c-3.5 0-6-2.5-6-6 0-2 1-3.5 2-4.5.5 1.5 2 2.5 4 2.5s3.5-1 4-2.5c1 1 2 2.5 2 4.5 0 3.5-2.5 6-6 6z" />
-            </Icon>
+            <Box as={Flame} w={16} h={16} color="accent.400" fill="currentColor" />
           </Box>
         </Flex>
-        <Box mt={4} pt={4} borderTop="1px solid" borderColor="accent.500" opacity={0.2}>
+        <Box mt={4} pt={4} borderTop="1px solid" borderColor="accent.500/20">
           <Grid templateColumns="repeat(2, 1fr)" gap={4}>
             <Box>
               <Text color="whiteAlpha.400" fontSize="xs">
@@ -102,8 +90,7 @@ export default function Progress() {
 
       {/* Weekly Progress */}
       <Box
-        bg="primary.600"
-        opacity={0.5}
+        bg="primary.600/50"
         border="1px solid"
         borderColor="primary.400"
         borderRadius="2xl"
@@ -117,8 +104,7 @@ export default function Progress() {
             <Flex key={day.day} flex={1} flexDir="column" align="center" gap={2}>
               <Box
                 w="full"
-                bg="primary.500"
-                opacity={0.3}
+                bg="primary.500/30"
                 borderTopRadius="lg"
                 position="relative"
                 overflow="hidden"
@@ -157,8 +143,7 @@ export default function Progress() {
           {metrics.map((metric) => (
             <Box
               key={metric.name}
-              bg="primary.600"
-              opacity={0.5}
+              bg="primary.600/50"
               border="1px solid"
               borderColor="primary.400"
               borderRadius="xl"
@@ -174,25 +159,14 @@ export default function Progress() {
                   px={2}
                   py={1}
                   borderRadius="md"
-                  bg={metric.trend === 'up' ? 'accent.500' : 'accent.400'}
-                  opacity={0.2}
-                  color={metric.trend === 'up' ? 'accent.400' : 'accent.300'}
+                  bg={metric.trend === 'up' ? 'accent.500/30' : 'accent.400/30'}
+                  color={metric.trend === 'up' ? 'accent.300' : 'accent.200'}
                 >
-                  <Icon
-                    viewBox="0 0 24 24"
+                  <Box
+                    as={metric.trend === 'up' ? TrendingUp : TrendingDown}
                     w={3}
                     h={3}
-                    fill="none"
-                    stroke="currentColor"
-                    transform={metric.trend === 'down' ? 'rotate(180deg)' : undefined}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 10l7-7m0 0l7 7m-7-7v18"
-                    />
-                  </Icon>
+                  />
                   <Text fontSize="xs" fontWeight="semibold">
                     {metric.change}
                   </Text>
@@ -224,22 +198,12 @@ export default function Progress() {
 
       {/* Biological Age */}
       <Box
-        bgGradient="linear(to-br, accent.500, accent.600)"
-        opacity={0.1}
+        bg="accent.500/10"
         position="relative"
         border="1px solid"
-        borderColor="accent.500"
+        borderColor="accent.500/50"
         borderRadius="2xl"
         p={5}
-        _before={{
-          content: '""',
-          position: 'absolute',
-          inset: 0,
-          bgGradient: 'linear(to-br, accent.500, accent.600)',
-          opacity: 0.1,
-          borderRadius: '2xl',
-          zIndex: -1,
-        }}
       >
         <Heading as="h3" size="md" color="white" mb={3}>
           Biological Age
@@ -264,8 +228,7 @@ export default function Progress() {
           </Box>
         </Flex>
         <Box
-          bg="accent.500"
-          opacity={0.2}
+          bg="accent.500/20"
           border="1px solid"
           borderColor="accent.500"
           borderRadius="lg"
@@ -283,8 +246,7 @@ export default function Progress() {
       {/* Export Data */}
       <Button
         w="full"
-        bg="primary.600"
-        opacity={0.5}
+        bg="primary.600/50"
         border="1px solid"
         borderColor="primary.400"
         borderRadius="xl"
@@ -297,14 +259,7 @@ export default function Progress() {
         transition="all 0.3s"
       >
         <Flex align="center" gap={2}>
-          <Icon viewBox="0 0 24 24" w={5} h={5} fill="none" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-            />
-          </Icon>
+          <Box as={Download} w={5} h={5} />
           <Text fontWeight="semibold">Export All Data</Text>
         </Flex>
       </Button>

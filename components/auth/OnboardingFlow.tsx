@@ -101,7 +101,7 @@ export default function OnboardingFlow() {
               {Math.round((step / totalSteps) * 100)}%
             </Text>
           </Flex>
-          <Box h={2} bg="primary.600" opacity={0.5} borderRadius="full" overflow="hidden">
+          <Box h={2} bg="primary.600/50" borderRadius="full" overflow="hidden">
             <motion.div
               style={{
                 height: '100%',
@@ -125,8 +125,7 @@ export default function OnboardingFlow() {
               exit={{ opacity: 0, x: -20 }}
             >
               <Box
-                bg="primary.600"
-                opacity={0.5}
+                bg="primary.600/50"
                 borderWidth="1px"
                 borderColor="primary.400"
                 borderRadius="2xl"
@@ -145,8 +144,7 @@ export default function OnboardingFlow() {
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   px={{ base: 5, sm: 6 }}
                   py={4}
-                  bg="primary.700"
-                  opacity={0.5}
+                  bg="primary.700/50"
                   borderWidth="1px"
                   borderColor="primary.400"
                   borderRadius="xl"
@@ -171,8 +169,7 @@ export default function OnboardingFlow() {
               exit={{ opacity: 0, x: -20 }}
             >
               <Box
-                bg="primary.600"
-                opacity={0.5}
+                bg="primary.600/50"
                 borderWidth="1px"
                 borderColor="primary.400"
                 borderRadius="2xl"
@@ -187,43 +184,64 @@ export default function OnboardingFlow() {
 
                 <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={{ base: 2.5, sm: 3 }}>
                   {[
-                    'Increase energy',
-                    'Improve sleep quality',
-                    'Reduce stress',
-                    'Optimize body composition',
-                    'Enhance mental clarity',
-                    'Reverse biological age',
-                    'Build healthy habits',
-                    'Improve athletic performance'
+                    { label: 'Increase energy', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
+                    { label: 'Improve sleep quality', icon: 'M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z' },
+                    { label: 'Reduce stress', icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z' },
+                    { label: 'Optimize body composition', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' },
+                    { label: 'Enhance mental clarity', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z' },
+                    { label: 'Reverse biological age', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+                    { label: 'Build healthy habits', icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+                    { label: 'Improve athletic performance', icon: 'M13 10V3L4 14h7v7l9-11h-7z' }
                   ].map((goal) => (
                     <Button
-                      key={goal}
-                      onClick={() => toggleGoal(goal)}
+                      key={goal.label}
+                      onClick={() => toggleGoal(goal.label)}
                       px={{ base: 4, sm: 6 }}
                       py={{ base: 3.5, sm: 4 }}
                       borderRadius="xl"
                       borderWidth="1px"
                       minH="56px"
                       justifyContent="flex-start"
-                      bg={formData.goals.includes(goal) ? "accent.500" : "primary.700"}
-                      opacity={formData.goals.includes(goal) ? 0.2 : 0.5}
-                      borderColor={formData.goals.includes(goal) ? "accent.500" : "primary.400"}
-                      color={formData.goals.includes(goal) ? "accent.300" : "whiteAlpha.700"}
-                      _active={{ bg: formData.goals.includes(goal) ? "accent.500" : "primary.700" }}
+                      bg={formData.goals.includes(goal.label) ? "accent.500/20" : "primary.700/50"}
+                      borderColor={formData.goals.includes(goal.label) ? "accent.500" : "primary.400"}
+                      color={formData.goals.includes(goal.label) ? "accent.300" : "whiteAlpha.700"}
+                      _active={{ bg: formData.goals.includes(goal.label) ? "accent.500/30" : "primary.700/60" }}
                     >
                       <Flex align="center" gap={{ base: 2.5, sm: 3 }}>
+                        <Flex
+                          w={{ base: 8, sm: 9 }}
+                          h={{ base: 8, sm: 9 }}
+                          bg={formData.goals.includes(goal.label) ? "accent.500/20" : "whiteAlpha.50"}
+                          borderRadius="lg"
+                          align="center"
+                          justify="center"
+                          flexShrink={0}
+                        >
+                          <Icon viewBox="0 0 24 24" w={{ base: 4, sm: 5 }} h={{ base: 4, sm: 5 }} color={formData.goals.includes(goal.label) ? "accent.400" : "whiteAlpha.600"}>
+                            <path
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d={goal.icon}
+                            />
+                          </Icon>
+                        </Flex>
+                        <Text fontWeight="medium" flex={1}>{goal.label}</Text>
                         <Box
                           w={5}
                           h={5}
                           borderRadius="full"
                           borderWidth="2px"
-                          borderColor={formData.goals.includes(goal) ? "accent.400" : "whiteAlpha.300"}
-                          bg={formData.goals.includes(goal) ? "accent.400" : "transparent"}
+                          borderColor={formData.goals.includes(goal.label) ? "accent.400" : "whiteAlpha.300"}
+                          bg={formData.goals.includes(goal.label) ? "accent.400" : "transparent"}
                           display="flex"
                           alignItems="center"
                           justifyContent="center"
+                          flexShrink={0}
                         >
-                          {formData.goals.includes(goal) && (
+                          {formData.goals.includes(goal.label) && (
                             <Icon viewBox="0 0 24 24" w={3} h={3} color="white">
                               <path
                                 fill="none"
@@ -236,7 +254,6 @@ export default function OnboardingFlow() {
                             </Icon>
                           )}
                         </Box>
-                        <Text fontWeight="medium">{goal}</Text>
                       </Flex>
                     </Button>
                   ))}
@@ -253,8 +270,7 @@ export default function OnboardingFlow() {
               exit={{ opacity: 0, x: -20 }}
             >
               <Box
-                bg="primary.600"
-                opacity={0.5}
+                bg="primary.600/50"
                 borderWidth="1px"
                 borderColor="primary.400"
                 borderRadius="2xl"
@@ -269,9 +285,9 @@ export default function OnboardingFlow() {
 
                 <Flex direction="column" gap={{ base: 2.5, sm: 3 }}>
                   {[
-                    { value: 'beginner', label: 'Beginner', desc: 'New to wellness and longevity practices' },
-                    { value: 'intermediate', label: 'Intermediate', desc: 'Some experience with biohacking' },
-                    { value: 'advanced', label: 'Advanced', desc: 'Experienced with wellness optimization' }
+                    { value: 'beginner', label: 'Beginner', desc: 'New to wellness and longevity practices', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
+                    { value: 'intermediate', label: 'Intermediate', desc: 'Some experience with biohacking', icon: 'M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z' },
+                    { value: 'advanced', label: 'Advanced', desc: 'Experienced with wellness optimization', icon: 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z' }
                   ].map((level) => (
                     <Button
                       key={level.value}
@@ -283,19 +299,40 @@ export default function OnboardingFlow() {
                       borderWidth="1px"
                       minH="68px"
                       justifyContent="flex-start"
-                      flexDir="column"
-                      alignItems="flex-start"
-                      bg={formData.experienceLevel === level.value ? "accent.500" : "primary.700"}
-                      opacity={formData.experienceLevel === level.value ? 0.2 : 0.5}
+                      bg={formData.experienceLevel === level.value ? "accent.500/20" : "primary.700/50"}
                       borderColor={formData.experienceLevel === level.value ? "accent.500" : "primary.400"}
-                      _active={{ bg: formData.experienceLevel === level.value ? "accent.500" : "primary.700" }}
+                      _active={{ bg: formData.experienceLevel === level.value ? "accent.500/30" : "primary.700/60" }}
                     >
-                      <Text color="white" fontWeight="semibold" fontSize="base">
-                        {level.label}
-                      </Text>
-                      <Text color="whiteAlpha.600" fontSize="sm" mt={0.5}>
-                        {level.desc}
-                      </Text>
+                      <Flex align="center" gap={3} w="full">
+                        <Flex
+                          w={10}
+                          h={10}
+                          bg={formData.experienceLevel === level.value ? "accent.500/20" : "whiteAlpha.50"}
+                          borderRadius="lg"
+                          align="center"
+                          justify="center"
+                          flexShrink={0}
+                        >
+                          <Icon viewBox="0 0 24 24" w={5} h={5} color={formData.experienceLevel === level.value ? "accent.400" : "whiteAlpha.600"}>
+                            <path
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d={level.icon}
+                            />
+                          </Icon>
+                        </Flex>
+                        <Box flex={1}>
+                          <Text color="white" fontWeight="semibold" fontSize="base">
+                            {level.label}
+                          </Text>
+                          <Text color="whiteAlpha.600" fontSize="sm" mt={0.5}>
+                            {level.desc}
+                          </Text>
+                        </Box>
+                      </Flex>
                     </Button>
                   ))}
                 </Flex>
@@ -311,8 +348,7 @@ export default function OnboardingFlow() {
               exit={{ opacity: 0, x: -20 }}
             >
               <Box
-                bg="primary.600"
-                opacity={0.5}
+                bg="primary.600/50"
                 borderWidth="1px"
                 borderColor="primary.400"
                 borderRadius="2xl"
@@ -340,8 +376,7 @@ export default function OnboardingFlow() {
                     onChange={(e) => setFormData({ ...formData, availableTime: parseInt(e.target.value) })}
                     w="full"
                     h={2}
-                    bg="primary.700"
-                    opacity={0.5}
+                    bg="primary.700/50"
                     borderRadius="full"
                     cursor="pointer"
                   />
@@ -351,7 +386,7 @@ export default function OnboardingFlow() {
                   </Flex>
                 </Box>
 
-                <Box bg="primary.700" opacity={0.3} borderRadius="xl" p={4} borderWidth="1px" borderColor="primary.400">
+                <Box bg="primary.700/30" borderRadius="xl" p={4} borderWidth="1px" borderColor="primary.400">
                   <Text color="whiteAlpha.700" fontSize="sm">
                     {formData.availableTime < 30 && "We'll focus on essential quick wins"}
                     {formData.availableTime >= 30 && formData.availableTime < 60 && "Perfect for building core habits"}
@@ -370,8 +405,7 @@ export default function OnboardingFlow() {
               exit={{ opacity: 0, x: -20 }}
             >
               <Box
-                bg="primary.600"
-                opacity={0.5}
+                bg="primary.600/50"
                 borderWidth="1px"
                 borderColor="primary.400"
                 borderRadius="2xl"
@@ -386,9 +420,9 @@ export default function OnboardingFlow() {
 
                 <Flex direction="column" gap={{ base: 2.5, sm: 3 }}>
                   {[
-                    { value: 'essential', label: 'Essential ($0-$500)', desc: 'Start with free protocols and minimal equipment' },
-                    { value: 'intermediate', label: 'Intermediate ($500-$2,500)', desc: 'Add helpful tools for better results' },
-                    { value: 'premium', label: 'Premium ($2,500+)', desc: 'Invest in advanced optimization equipment' }
+                    { value: 'essential', label: 'Essential ($0-$500)', desc: 'Start with free protocols and minimal equipment', icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+                    { value: 'intermediate', label: 'Intermediate ($500-$2,500)', desc: 'Add helpful tools for better results', icon: 'M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z' },
+                    { value: 'premium', label: 'Premium ($2,500+)', desc: 'Invest in advanced optimization equipment', icon: 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z' }
                   ].map((budget) => (
                     <Button
                       key={budget.value}
@@ -400,19 +434,40 @@ export default function OnboardingFlow() {
                       borderWidth="1px"
                       minH="68px"
                       justifyContent="flex-start"
-                      flexDir="column"
-                      alignItems="flex-start"
-                      bg={formData.budget === budget.value ? "accent.500" : "primary.700"}
-                      opacity={formData.budget === budget.value ? 0.2 : 0.5}
+                      bg={formData.budget === budget.value ? "accent.500/20" : "primary.700/50"}
                       borderColor={formData.budget === budget.value ? "accent.500" : "primary.400"}
-                      _active={{ bg: formData.budget === budget.value ? "accent.500" : "primary.700" }}
+                      _active={{ bg: formData.budget === budget.value ? "accent.500/30" : "primary.700/60" }}
                     >
-                      <Text color="white" fontWeight="semibold" fontSize="base">
-                        {budget.label}
-                      </Text>
-                      <Text color="whiteAlpha.600" fontSize="sm" mt={0.5}>
-                        {budget.desc}
-                      </Text>
+                      <Flex align="center" gap={3} w="full">
+                        <Flex
+                          w={10}
+                          h={10}
+                          bg={formData.budget === budget.value ? "accent.500/20" : "whiteAlpha.50"}
+                          borderRadius="lg"
+                          align="center"
+                          justify="center"
+                          flexShrink={0}
+                        >
+                          <Icon viewBox="0 0 24 24" w={5} h={5} color={formData.budget === budget.value ? "accent.400" : "whiteAlpha.600"}>
+                            <path
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d={budget.icon}
+                            />
+                          </Icon>
+                        </Flex>
+                        <Box flex={1}>
+                          <Text color="white" fontWeight="semibold" fontSize="base">
+                            {budget.label}
+                          </Text>
+                          <Text color="whiteAlpha.600" fontSize="sm" mt={0.5}>
+                            {budget.desc}
+                          </Text>
+                        </Box>
+                      </Flex>
                     </Button>
                   ))}
                 </Flex>
@@ -428,8 +483,7 @@ export default function OnboardingFlow() {
             disabled={step === 1}
             px={{ base: 5, sm: 6 }}
             py={3.5}
-            bg="primary.600"
-            opacity={0.5}
+            bg="primary.600/50"
             borderWidth="1px"
             borderColor="primary.400"
             borderRadius="xl"

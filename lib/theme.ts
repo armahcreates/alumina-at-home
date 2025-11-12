@@ -1,6 +1,6 @@
 import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react'
 
-const customConfig = defineConfig({
+const config = defineConfig({
   theme: {
     tokens: {
       colors: {
@@ -30,9 +30,9 @@ const customConfig = defineConfig({
         },
       },
       fonts: {
-        heading: { value: 'var(--font-geist-sans)' },
-        body: { value: 'var(--font-geist-sans)' },
-        mono: { value: 'var(--font-geist-mono)' },
+        heading: { value: 'var(--font-geist-sans), system-ui, sans-serif' },
+        body: { value: 'var(--font-geist-sans), system-ui, sans-serif' },
+        mono: { value: 'var(--font-geist-mono), monospace' },
       },
     },
   },
@@ -44,6 +44,6 @@ const customConfig = defineConfig({
   },
 })
 
-const system = createSystem(customConfig)
+export const system = createSystem(defaultConfig, config)
 
 export default system

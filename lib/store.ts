@@ -48,6 +48,7 @@ interface AppState {
   login: (email: string, password: string) => void;
   logout: () => void;
   completeOnboarding: (profile: UserProfile) => void;
+  updateUser: (profile: Partial<UserProfile>) => void;
   toggleTask: (taskId: string) => void;
   addDailyMetric: (metric: DailyMetrics) => void;
   unlockAchievement: (achievementId: string) => void;
@@ -93,6 +94,15 @@ export const useStore = create<AppState>()(
           hasCompletedOnboarding: true,
           user: profile
         });
+      },
+
+      updateUser: (profile: Partial<UserProfile>) => {
+        const currentUser = get().user;
+        if (currentUser) {
+          set({
+            user: { ...currentUser, ...profile }
+          });
+        }
       },
 
       toggleTask: (taskId: string) => {
