@@ -8,8 +8,7 @@ import {
   Text,
   IconButton,
   Grid,
-  Icon,
-  Badge
+  Icon
 } from '@chakra-ui/react';
 
 interface Achievement {

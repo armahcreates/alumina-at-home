@@ -16,7 +16,7 @@ import {
   Input,
   Textarea
 } from '@chakra-ui/react';
-import { Zap, Moon, Heart, Flame, Check, Clock, FileText, Users, Calendar, X } from 'lucide-react';
+import { Zap, Moon, Heart, Flame, Check, Clock, FileText, Users, Calendar } from 'lucide-react';
 
 export default function Dashboard() {
   const { completedTasks, toggleTask, user } = useStore();
@@ -285,7 +285,7 @@ export default function Dashboard() {
                         borderRadius="sm"
                         fontSize={{ base: "10px", sm: "xs" }}
                         bg={getCategoryColorBg(protocol.category)}
-                        color={getCategoryColorText(protocol.category)}
+                        color={getCategoryColorText()}
                       >
                         {protocol.category}
                       </Badge>
@@ -709,6 +709,6 @@ function getCategoryColorBg(category: string) {
   return colors[category] || 'whiteAlpha.200';
 }
 
-function getCategoryColorText(category: string) {
+function getCategoryColorText() {
   return 'accent.200';
 }

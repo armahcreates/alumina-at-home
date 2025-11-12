@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
 import FocusTrapReact from 'focus-trap-react';
 
 interface FocusTrapProps {

@@ -16,6 +16,15 @@ import {
   Textarea,
 } from '@chakra-ui/react';
 import { Check, Zap, CheckCircle, Bell, User, Lock, FileText, HelpCircle, ChevronRight, X } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+
+interface Goal {
+  id: string;
+  title: string;
+  target: string;
+  current: string;
+  icon: LucideIcon;
+}
 
 export default function Profile() {
   const { user, logout, updateUser, currentStreak, longestStreak } = useStore();
@@ -445,9 +454,9 @@ function PersonalInfoModal({
   onClose,
   onUpdate
 }: {
-  user: any;
+  user: { name?: string; email?: string; experienceLevel?: 'beginner' | 'intermediate' | 'advanced'; availableTime?: number } | null;
   onClose: () => void;
-  onUpdate: (data: any) => void;
+  onUpdate: (data: Partial<PersonalInfoFormData>) => void;
 }) {
   const { register, handleSubmit, formState: { errors } } = useForm<PersonalInfoFormData>({
     defaultValues: {
@@ -663,7 +672,7 @@ function PersonalInfoModal({
 }
 
 // Goals Modal
-function GoalsModal({ goals, onClose }: { goals: any[]; onClose: () => void }) {
+function GoalsModal({ goals, onClose }: { goals: Goal[]; onClose: () => void }) {
   return (
     <Box
       position="fixed"

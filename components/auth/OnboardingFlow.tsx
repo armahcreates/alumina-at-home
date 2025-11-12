@@ -11,8 +11,7 @@ import {
   Button,
   Input,
   Grid,
-  Icon,
-  Progress
+  Icon
 } from '@chakra-ui/react';
 
 export default function OnboardingFlow() {
